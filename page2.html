@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>核心仿写引擎 — SqAI 菱形AI 小说仿写工坊 2.0</title>
+<link rel="stylesheet" href="https://static-resources.nuwax.com/tailwind.min.css">
+<link rel="stylesheet" href="https://static-resources.nuwax.com/g-fonts.css">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- ============ 导航栏 ============ -->
+<nav class="navbar">
+  <div class="nav-brand">
+    <div class="logo-icon">◆</div>
+    <div class="brand-text">
+      <h1>小说仿写工坊 2.0</h1>
+      <span>AI 智能仿写 一键生成原创</span>
+    </div>
+  </div>
+  <div class="nav-links">
+    <a href="index.html" class="nav-link">首页</a>
+    <a href="page2.html" class="nav-link active">核心仿写</a>
+    <a href="page3.html" class="nav-link">自定义工作流</a>
+  </div>
+  <div class="nav-right">
+    <a href="https://sqai.shop/" target="_blank" class="nav-more-tools">更多AI工具</a>
+    <span class="status-badge status-inactive" id="navStatusBadge" onclick="checkAndRedirect()">立即激活</span>
+  </div>
+</nav>
+
+<!-- ============ 未激活遮罩 ============ -->
+<div class="lock-overlay" id="lockOverlay">
+  <div class="lock-ico">🔒</div>
+  <h2>该功能需激活后使用</h2>
+  <p>请输入 16 位激活码解锁核心仿写引擎全部高阶功能。激活后此页所有参数、模型、导出功能立即开放。</p>
+  <button class="btn-gold pulse-anim" onclick="showActivationModal()">立即激活解锁</button>
+</div>
+
+<!-- ============ 头部 ============ -->
+<header class="section" style="text-align:center;padding-top:60px;padding-bottom:10px;">
+  <div class="container">
+    <h1 style="font-size:38px;font-weight:900;margin-bottom:10px;background:linear-gradient(180deg,#fff,#f0c060);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;">核心仿写引擎</h1>
+    <p class="subtitle" style="color:var(--text-secondary);font-size:16px;">22 步精工流水线・DNA 提取 → 逐章仿写 → 智能质检 → 一键成书</p>
+    <p style="font-size:12px;color:var(--text-muted);margin-top:6px;">上传原著设参启动仿写，经 22 步流水线文风改写质检，一键导出原创书稿</p>
+  </div>
+</header>
+
+<main class="container" style="padding-bottom:60px;">
+
+<!-- ===== Step 1: 上传 ===== -->
+<section class="card" style="margin-bottom:24px;">
+  <div class="step-header" style="display:flex;align-items:center;gap:12px;margin-bottom:18px;">
+    <div class="step-num" style="width:34px;height:34px;border-radius:10px;background:var(--gold-grad);color:#2a1408;display:flex;align-items:center;justify-content:center;font-weight:800;">1</div>
+    <div class="step-title" style="font-size:18px;font-weight:700;">上传 & 导入章节（查漏补缺）</div>
+  </div>
+  <div class="upload-zone" id="uploadZone" onclick="document.getElementById('fileInput').click()" style="border:2px dashed var(--border-color);border-radius:14px;padding:38px;text-align:center;cursor:pointer;transition:.2s;background:rgba(255,255,255,0.02);">
+    <div class="upload-icon" style="font-size:40px;margin-bottom:10px;">📁</div>
+    <div class="upload-text" style="font-size:15px;color:var(--text-primary);">拖拽文件到此处，或点击选择文件</div>
+    <div class="upload-hint" style="font-size:12px;color:var(--text-muted);margin-top:6px;">支持 .txt/.docx 格式，建议单文件 300 万字内</div>
+    <div class="upload-warn" style="font-size:12px;color:var(--accent-green);margin-top:6px;">⚠ 智能识别章节结构・自动拆分解析</div>
+  </div>
+  <input type="file" id="fileInput" accept=".txt,.docx" style="display:none" onchange="handleFileSelect(event)">
+  <div id="fileInfo" style="margin-top:12px;font-size:13px;color:var(--accent-green);display:none;"></div>
+  <div id="analysisResult" style="margin-top:12px;padding:12px 14px;border-radius:10px;background:rgba(240,192,96,0.03);border:1px solid rgba(240,192,96,0.1);display:none;"></div>
+  <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:16px;">
+    <button class="btn-gold" onclick="importAllChapters()">一键导入所有章节</button>
+    <button class="btn-dark" onclick="selectChapters()">选择章节导入</button>
+  </div>
+  <div class="hot-analysis-row" style="margin-top:16px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+    <span class="hot-label" style="background:rgba(240,192,96,0.12);color:var(--gold);padding:4px 12px;border-radius:14px;font-size:12px;">🔥爆款分析</span>
+    <span style="font-size:12px;color:var(--text-secondary);">深度解析 (~10000 字)</span>
+    <select style="background:rgba(0,0,0,0.3);border:1px solid var(--border-color);color:#fff;padding:6px 12px;border-radius:6px;font-size:13px;">
+      <option>小说爆款分析</option><option>人物关系分析</option><option>剧情节奏分析</option><option>文风特征分析</option>
+    </select>
+    <button class="btn-gold btn-sm" onclick="runHotAnalysis()">分析</button>
+    <span style="font-size:11px;color:var(--text-muted);">✅ 分析后自动下载分析报告</span>
+  </div>
+</section>
+
+<!-- ===== Step 2: 模型 + 模式 + 字数 + 格式 ===== -->
+<section class="card" style="margin-bottom:24px;">
+  <div class="step-header" style="display:flex;align-items:center;gap:12px;margin-bottom:18px;">
+    <div class="step-num" style="width:34px;height:34px;border-radius:10px;background:var(--gold-grad);color:#2a1408;display:flex;align-items:center;justify-content:center;font-weight:800;">2</div>
+    <div class="step-title" style="font-size:18px;font-weight:700;">AI 模型选择 + 仿写模式 & 字数 & 格式</div>
+  </div>
+
+  <h4 style="color:var(--gold);font-size:14px;margin-bottom:8px;">🤖 AI 模型选择（支持多选，单次可同时选择4个模型协同工作）</h4>
+  <p style="font-size:11px;color:var(--text-muted);margin-bottom:6px;">对接官方合规接口：<a href="https://cloud.siliconflow.cn/me/models" target="_blank" style="color:var(--accent-blue);">硅基流动</a>，全部为平台真实可调用有效模型</p>
+  <p style="font-size:11px;color:var(--accent-green);margin-bottom:12px;">💡 智能适配机制：系统实时检测模型可用状态，若选中模型失效/限流/额度耗尽，自动替换为平台可用最优模型</p>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:8px;margin-bottom:16px;font-size:11px;color:var(--text-secondary);padding:12px;background:rgba(240,192,96,0.03);border-radius:10px;border:1px solid rgba(240,192,96,0.08);">
+    <div>🏆 <strong style="color:var(--gold);">长篇仿写首选：</strong>DeepSeek Chat</div>
+    <div>🏆 <strong style="color:var(--gold);">剧情逻辑首选：</strong>DeepSeek Reasoner</div>
+    <div>🏆 <strong style="color:var(--gold);">文笔润色首选：</strong>Qwen2.5-72B</div>
+    <div>🏆 <strong style="color:var(--gold);">极速仿写首选：</strong>Qwen2.5-14B</div>
+    <div>🏆 <strong style="color:var(--gold);">创意改编首选：</strong>Yi-Large</div>
+  </div>
+
+  <div class="model-grid" id="modelGrid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;">
+    <div class="model-card selected" data-model="deepseek-chat" onclick="toggleModel(this)" style="border:1px solid var(--border-color);border-radius:12px;padding:12px;cursor:pointer;position:relative;background:rgba(240,192,96,0.05);">
+      <span class="model-badge" style="position:absolute;top:8px;right:8px;color:var(--gold);">✓</span>
+      <div class="model-name" style="font-weight:700;">DeepSeek Chat</div>
+      <div class="model-desc" style="font-size:12px;color:var(--text-muted);">通用写作・V3 大模型</div>
+      <div class="model-recommend" style="font-size:11px;color:var(--gold);margin-top:4px;">🏆 百万字长篇全书仿写首选</div>
+    </div>
+    <div class="model-card selected" data-model="deepseek-reasoner" onclick="toggleModel(this)" style="border:1px solid var(--border-color);border-radius:12px;padding:12px;cursor:pointer;position:relative;background:rgba(240,192,96,0.05);">
+      <span class="model-badge" style="position:absolute;top:8px;right:8px;color:var(--gold);">✓</span>
+      <div class="model-name" style="font-weight:700;">DeepSeek Reasoner</div>
+      <div class="model-desc" style="font-size:12px;color:var(--text-muted);">深度推理・逻辑严谨</div>
+      <div class="model-recommend" style="font-size:11px;color:var(--gold);margin-top:4px;">🏆 复杂剧情逻辑仿写首选</div>
+    </div>
+    <div class="model-card" data-model="qwen72b" onclick="toggleModel(this)" style="border:1px solid var(--border-soft);border-radius:12px;padding:12px;cursor:pointer;position:relative;">
+      <span class="model-badge" style="position:absolute;top:8px;right:8px;color:var(--text-muted);"></span>
+      <div class="model-name" style="font-weight:700;">Qwen2.5-72B</div>
+      <div class="model-desc" style="font-size:12px;color:var(--text-muted);">通义千问・文笔流畅</div>
+      <div class="model-recommend" style="font-size:11px;color:var(--gold);margin-top:4px;">🏆 文笔质感润色首选</div>
+    </div>
+    <div class="model-card" data-model="qwen14b" onclick="toggleModel(this)" style="border:1px solid var(--border-soft);border-radius:12px;padding:12px;cursor:pointer;position:relative;">
+      <span class="model-badge" style="position:absolute;top:8px;right:8px;color:var(--text-muted);"></span>
+      <div class="model-name" style="font-weight:700;">Qwen2.5-14B</div>
+      <div class="model-desc" style="font-size:12px;color:var(--text-muted);">轻量高效・快速响应</div>
+      <div class="model-recommend" style="font-size:11px;color:var(--gold);margin-top:4px;">🏆 短篇极速仿写首选</div>
+    </div>
+    <div class="model-card" data-model="glm4" onclick="toggleModel(this)" style="border:1px solid var(--border-soft);border-radius:12px;padding:12px;cursor:pointer;position:relative;">
+      <span class="model-badge" style="position:absolute;top:8px;right:8px;color:var(--text-muted);"></span>
+      <div class="model-name" style="font-weight:700;">GLM-4</div>
+      <div class="model-desc" style="font-size:12px;color:var(--text-muted);">智谱清言・中文优化</div>
+    </div>
+    <div class="model-card" data-model="yi-large" onclick="toggleModel(this)" style="border:1px solid var(--border-soft);border-radius:12px;padding:12px;cursor:pointer;position:relative;">
+      <span class="model-badge" style="position:absolute;top:8px;right:8px;color:var(--text-muted);"></span>
+      <div class="model-name" style="font-weight:700;">Yi-Large</div>
+      <div class="model-desc" style="font-size:12px;color:var(--text-muted);">零一万物・创意写作</div>
+      <div class="model-recommend" style="font-size:11px;color:var(--gold);margin-top:4px;">🏆 创意剧情改编首选</div>
+    </div>
+  </div>
+
+  <div id="moreModels" style="display:none;">
+    <div class="model-grid" style="margin-top:12px;display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;" id="moreModelGrid">
+      <div class="model-card" data-model="kimi" onclick="toggleModel(this)" style="border:1px solid var(--border-soft);border-radius:12px;padding:12px;cursor:pointer;position:relative;">
+        <span class="model-badge" style="position:absolute;top:8px;right:8px;color:var(--text-muted);"></span>
+        <div class="model-name" style="font-weight:700;">Kimi</div><div class="model-desc" style="font-size:12px;color:var(--text-muted);">月之暗面・长文本理解</div>
+      </div>
+      <div class="model-card" data-model="doubao" onclick="toggleModel(this)" style="border:1px solid var(--border-soft);border-radius:12px;padding:12px;cursor:pointer;position:relative;">
+        <span class="model-badge" style="position:absolute;top:8px;right:8px;color:var(--text-muted);"></span>
+        <div class="model-name" style="font-weight:700;">Doubao</div><div class="model-desc" style="font-size:12px;color:var(--text-muted);">字节跳动・豆包大模型</div>
+      </div>
+      <div class="model-card" data-model="deepseek-v3" onclick="toggleModel(this)" style="border:1px solid var(--border-soft);border-radius:12px;padding:12px;cursor:pointer;position:relative;">
+        <span class="model-badge" style="position:absolute;top:8px;right:8px;color:var(--text-muted);"></span>
+        <div class="model-name" style="font-weight:700;">DeepSeek V3</div><div class="model-desc" style="font-size:12px;color:var(--text-muted);">最新旗舰・全能写作</div>
+      </div>
+      <div class="model-card" data-model="custom" onclick="toggleModel(this)" style="border:1px solid var(--border-soft);border-radius:12px;padding:12px;cursor:pointer;position:relative;">
+        <span class="model-badge" style="position:absolute;top:8px;right:8px;color:var(--text-muted);"></span>
+        <div class="model-name" style="font-weight:700;">🔧 自定义模型</div><div class="model-desc" style="font-size:12px;color:var(--text-muted);">自行填写API密钥与接口</div>
+      </div>
+    </div>
+  </div>
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px;">
+    <span style="font-size:12px;color:var(--text-muted);" id="modelCount">已选择 2 / 4 个模型</span>
+    <button class="btn-dark btn-sm" onclick="toggleMoreModels()" id="moreModelsBtn">展开更多 ▼</button>
+  </div>
+
+  <div style="margin-top:20px;">
+    <label style="font-size:13px;color:var(--text-secondary);margin-bottom:6px;display:block;">API Key（留空即用内置官方密钥，开箱即用；也可粘贴你自己的 Key）</label>
+    <input type="password" id="apiKeyInput" placeholder="留空使用内置官方密钥，或粘贴 sk-xxxx 你自己的 API Key" autocomplete="off" style="width:100%;padding:12px 14px;border-radius:10px;background:rgba(0,0,0,0.3);border:1px solid var(--border-soft);color:#fff;font-family:'Consolas',monospace;">
+    <label style="font-size:12px;color:var(--text-muted);margin-top:8px;display:block;">自定义 API 接口地址（仅在使用第三方/硅基流动等非默认接口时填写，默认留空）</label>
+    <input type="text" id="apiUrlInput" placeholder="如 https://api.siliconflow.cn/v1（留空自动使用官方 DeepSeek 接口）" autocomplete="off" style="width:100%;padding:10px 14px;border-radius:10px;background:rgba(0,0,0,0.3);border:1px solid var(--border-soft);color:#fff;font-family:'Consolas',monospace;margin-top:4px;">
+    <p style="font-size:11px;color:var(--text-muted);margin-top:4px;">内置官方密钥经 XOR+Base64 混淆处理，前端无明文展示；建议正式使用时填写自己的 Key 以保障额度与稳定。</p>
+  </div>
+
+  <div style="margin-top:20px;">
+    <h4 style="color:var(--gold);font-size:14px;margin-bottom:12px;">📝 仿写模式</h4>
+    <div id="modeSelector" style="display:flex;gap:10px;flex-wrap:wrap;">
+      <div class="mode-option active" data-mode="full" onclick="selectMode(this)" style="padding:10px 18px;border-radius:10px;cursor:pointer;border:1px solid var(--gold);color:var(--gold);background:rgba(240,192,96,0.08);">全维综合模式 <span style="font-size:11px;color:var(--text-muted);">【情节+人物+风格+节奏+设定全方位对标】（默认选中）</span></div>
+      <div class="mode-option" data-mode="track" onclick="selectMode(this)" style="padding:10px 18px;border-radius:10px;cursor:pointer;border:1px solid var(--border-soft);color:var(--text-secondary);">赛道适配模式</div>
+      <div class="mode-option" data-mode="plot" onclick="selectMode(this)" style="padding:10px 18px;border-radius:10px;cursor:pointer;border:1px solid var(--border-soft);color:var(--text-secondary);">情节模式</div>
+      <div class="mode-option" data-mode="character" onclick="selectMode(this)" style="padding:10px 18px;border-radius:10px;cursor:pointer;border:1px solid var(--border-soft);color:var(--text-secondary);">人物模式</div>
+      <div class="mode-option" data-mode="style" onclick="selectMode(this)" style="padding:10px 18px;border-radius:10px;cursor:pointer;border:1px solid var(--border-soft);color:var(--text-secondary);">风格模式</div>
+    </div>
+  </div>
+
+  <div style="margin-top:20px;">
+    <h4 style="color:var(--gold);font-size:14px;margin-bottom:12px;">📏 目标字数</h4>
+    <div class="word-btn-group" id="wordCountGroup" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px;">
+      <button class="word-btn" data-words="1000" onclick="selectWordCount(this)" style="padding:8px 14px;border-radius:8px;border:1px solid var(--border-soft);background:var(--panel-2);color:var(--text-secondary);cursor:pointer;">千<span style="font-size:10px;color:var(--gold);">【总纲】</span></button>
+      <button class="word-btn" data-words="10000" onclick="selectWordCount(this)" style="padding:8px 14px;border-radius:8px;border:1px solid var(--border-soft);background:var(--panel-2);color:var(--text-secondary);cursor:pointer;">1 万<span style="font-size:10px;color:var(--gold);">【测试】</span></button>
+      <button class="word-btn" data-words="20000" onclick="selectWordCount(this)" style="padding:8px 14px;border-radius:8px;border:1px solid var(--border-soft);background:var(--panel-2);color:var(--text-secondary);cursor:pointer;">2 万<span style="font-size:10px;color:var(--gold);">【测试】</span></button>
+      <button class="word-btn" data-words="30000" onclick="selectWordCount(this)" style="padding:8px 14px;border-radius:8px;border:1px solid var(--border-soft);background:var(--panel-2);color:var(--text-secondary);cursor:pointer;">3 万<span class="hot-badge" style="font-size:10px;color:var(--accent-green);">🔥【短篇】</span></button>
+      <button class="word-btn" data-words="100000" onclick="selectWordCount(this)" style="padding:8px 14px;border-radius:8px;border:1px solid var(--border-soft);background:var(--panel-2);color:var(--text-secondary);cursor:pointer;">10 万字</button>
+      <button class="word-btn active" data-words="300000" onclick="selectWordCount(this)" style="padding:8px 14px;border-radius:8px;border:1px solid var(--gold);background:rgba(240,192,96,0.08);color:var(--gold);cursor:pointer;">30 万字</button>
+      <button class="word-btn" data-words="500000" onclick="selectWordCount(this)" style="padding:8px 14px;border-radius:8px;border:1px solid var(--border-soft);background:var(--panel-2);color:var(--text-secondary);cursor:pointer;">50 万字</button>
+      <button class="word-btn" data-words="1000000" onclick="selectWordCount(this)" style="padding:8px 14px;border-radius:8px;border:1px solid var(--border-soft);background:var(--panel-2);color:var(--text-secondary);cursor:pointer;">100 万字</button>
+    </div>
+    <div class="word-btn-group" id="wordCountGroup2" style="display:flex;gap:8px;flex-wrap:wrap;">
+      <button class="word-btn" data-words="2000000" onclick="selectWordCount(this)" style="padding:8px 14px;border-radius:8px;border:1px solid var(--border-soft);background:var(--panel-2);color:var(--text-secondary);cursor:pointer;">200 万字</button>
+      <button class="word-btn" data-words="3000000" onclick="selectWordCount(this)" style="padding:8px 14px;border-radius:8px;border:1px solid var(--border-soft);background:var(--panel-2);color:var(--text-secondary);cursor:pointer;">300 万字</button>
+      <button class="word-btn" data-words="custom" onclick="showCustomWords()" style="padding:8px 14px;border-radius:8px;border:1px solid var(--border-soft);background:var(--panel-2);color:var(--text-secondary);cursor:pointer;">自定义<span style="font-size:10px;color:var(--text-muted);"> 1万~3000万</span></button>
+    </div>
+    <div style="font-size:13px;color:var(--text-secondary);margin-top:12px;padding:10px 16px;background:rgba(255,255,255,0.02);border-radius:8px;border:1px solid var(--border-soft);" id="wordStatusBar">
+      目标字数 <span style="color:var(--gold);font-weight:700;" id="statusWordCount">30 万字</span> | 预估 <span style="color:var(--accent-blue);" id="statusChapters">100 章</span> | 缩放比例 <span style="color:var(--accent-green);" id="statusScale">1.0x</span>
+    </div>
+  </div>
+
+  <div style="margin-top:20px;">
+    <h4 style="color:var(--gold);font-size:14px;margin-bottom:12px;">📖 章节字数【每章字数模式】</h4>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;">
+      <span class="chapter-option" onclick="selectChapterSize(this)" data-size="compact" style="padding:8px 16px;border-radius:8px;border:1px solid var(--border-soft);cursor:pointer;color:var(--text-secondary);">紧凑 1890~2600【自选】</span>
+      <span class="chapter-option active" onclick="selectChapterSize(this)" data-size="normal" style="padding:8px 16px;border-radius:8px;border:1px solid var(--gold);background:rgba(240,192,96,0.08);cursor:pointer;color:var(--gold);">标准 2200~3800【默认】</span>
+      <span class="chapter-option" onclick="selectChapterSize(this)" data-size="full" style="padding:8px 16px;border-radius:8px;border:1px solid var(--border-soft);cursor:pointer;color:var(--text-secondary);">丰满 3200~5500【自选】</span>
+    </div>
+  </div>
+
+  <div style="margin-top:20px;">
+    <h4 style="color:var(--gold);font-size:14px;margin-bottom:12px;">💾 输出格式</h4>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;">
+      <span class="format-option active" onclick="selectFormat(this)" data-format="txt" style="padding:8px 16px;border-radius:8px;border:1px solid var(--gold);background:rgba(240,192,96,0.08);cursor:pointer;color:var(--gold);">TXT【默认】</span>
+      <span class="format-option" onclick="selectFormat(this)" data-format="docx" style="padding:8px 16px;border-radius:8px;border:1px solid var(--border-soft);cursor:pointer;color:var(--text-secondary);">DOCX【自选】</span>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Step 4: 核心参数调节 ===== -->
+<section class="card" style="margin-bottom:24px;">
+  <div class="step-header" style="display:flex;align-items:center;gap:12px;margin-bottom:18px;">
+    <div class="step-num" style="width:34px;height:34px;border-radius:10px;background:var(--gold-grad);color:#2a1408;display:flex;align-items:center;justify-content:center;font-weight:800;">4</div>
+    <div class="step-title" style="font-size:18px;font-weight:700;">核心参数调节</div>
+  </div>
+
+  <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:16px;">
+    <div style="display:flex;align-items:center;gap:10px;">
+      <span style="font-size:14px;color:var(--text-primary);">一键默认</span>
+      <label class="toggle-switch"><input type="checkbox" id="oneClickDefault" checked onchange="toggleDefaultMode()"><span class="toggle-slider"></span></label>
+      <span style="font-size:12px;color:var(--text-muted);">使用最佳默认参数，新人推荐打开</span>
+    </div>
+    <button class="btn-dark btn-sm" onclick="resetAllParams()">恢复默认值</button>
+  </div>
+
+  <div class="tab-bar" style="display:flex;gap:8px;margin-bottom:20px;">
+    <button class="tab-btn active" onclick="switchTab('tab-content')" style="padding:9px 16px;border-radius:10px;border:1px solid var(--gold);background:rgba(240,192,96,0.1);color:var(--gold);cursor:pointer;font-family:inherit;font-size:13px;">内容还原・创新权重</button>
+    <button class="tab-btn" onclick="switchTab('tab-creative')" style="padding:9px 16px;border-radius:10px;border:1px solid var(--border-soft);background:var(--panel-2);color:var(--text-secondary);cursor:pointer;font-family:inherit;font-size:13px;">AI 创意精修</button>
+    <button class="tab-btn" onclick="switchTab('tab-translate')" style="padding:9px 16px;border-radius:10px;border:1px solid var(--border-soft);background:var(--panel-2);color:var(--text-secondary);cursor:pointer;font-family:inherit;font-size:13px;">中英双语翻译</button>
+  </div>
+
+  <div class="tab-content active" id="tab-content">
+    <div class="slider-group" style="margin-bottom:18px;"><div class="slider-label" style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px;"><span>剧情保留度</span><span class="slider-val gold" id="val-plot" style="color:var(--gold);">85%</span></div><input type="range" class="gold-range" min="0" max="100" value="85" id="slider-plot" oninput="updateSlider('plot')"></div>
+    <div class="slider-group" style="margin-bottom:18px;"><div class="slider-label" style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px;"><span>人设保留度</span><span class="slider-val gold" id="val-char" style="color:var(--gold);">85%</span></div><input type="range" class="gold-range" min="0" max="100" value="85" id="slider-char" oninput="updateSlider('char')"></div>
+    <div class="slider-group" style="margin-bottom:18px;"><div class="slider-label" style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px;"><span>爽点保留度</span><span class="slider-val gold" id="val-cool" style="color:var(--gold);">80%</span></div><input type="range" class="gold-range" min="0" max="100" value="80" id="slider-cool" oninput="updateSlider('cool')"></div>
+    <div class="slider-group" style="margin-bottom:18px;"><div class="slider-label" style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px;"><span>逻辑保留度</span><span class="slider-val gold" id="val-logic" style="color:var(--gold);">65%</span></div><input type="range" class="gold-range" min="0" max="100" value="65" id="slider-logic" oninput="updateSlider('logic')"></div>
+    <div class="slider-group" style="margin-bottom:18px;"><div class="slider-label" style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px;"><span>风格保留度</span><span class="slider-val gold" id="val-style" style="color:var(--gold);">78%</span></div><input type="range" class="gold-range" min="0" max="100" value="78" id="slider-style" oninput="updateSlider('style')"></div>
+  </div>
+
+  <div class="tab-content" id="tab-creative" style="display:none;">
+    <div class="slider-group" style="margin-bottom:18px;"><div class="slider-label" style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px;"><span>AI 创意度</span><span class="slider-val blue" id="val-creative" style="color:var(--accent-blue);">60%</span></div><input type="range" class="blue-range" min="0" max="100" value="60" id="slider-creative" oninput="updateSlider('creative')"></div>
+    <div class="slider-group" style="margin-bottom:18px;"><div class="slider-label" style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px;"><span>优化迭代轮次</span><span class="slider-val blue" id="val-optimize" style="color:var(--accent-blue);">40%</span></div><input type="range" class="blue-range" min="0" max="100" value="40" id="slider-optimize" oninput="updateSlider('optimize')"></div>
+    <div class="slider-group" style="margin-bottom:18px;"><div class="slider-label" style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px;"><span>审核严苛度</span><span class="slider-val blue" id="val-audit" style="color:var(--accent-blue);">50%</span></div><input type="range" class="blue-range" min="0" max="100" value="50" id="slider-audit" oninput="updateSlider('audit')"></div>
+    <div class="slider-group" style="margin-bottom:18px;"><div class="slider-label" style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px;"><span>文学增强度</span><span class="slider-val blue" id="val-literary" style="color:var(--accent-blue);">45%</span></div><input type="range" class="blue-range" min="0" max="100" value="45" id="slider-literary" oninput="updateSlider('literary')"></div>
+    <div class="slider-group" style="margin-bottom:18px;"><div class="slider-label" style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px;"><span>AI 发散度</span><span class="slider-val blue" id="val-divergent" style="color:var(--accent-blue);">35%</span></div><input type="range" class="blue-range" min="0" max="100" value="35" id="slider-divergent" oninput="updateSlider('divergent')"></div>
+  </div>
+
+  <div class="tab-content" id="tab-translate" style="display:none;">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
+      <span style="font-size:15px;font-weight:600;color:#fff;">中英双语翻译</span>
+      <label class="toggle-switch"><input type="checkbox" id="translateToggle" onchange="toggleTranslation()"><span class="toggle-slider"></span></label>
+      <span style="font-size:13px;color:var(--text-muted);" id="translateStatus">已关闭【默认】</span>
+    </div>
+    <div style="margin-bottom:14px;padding:10px 14px;background:rgba(76,175,132,0.04);border-radius:8px;border:1px solid rgba(76,175,132,0.1);">
+      <span style="font-size:12px;color:var(--accent-green);">📋 翻译执行模式：</span>
+      <select id="translateMode" style="background:rgba(0,0,0,0.3);border:1px solid var(--border-color);color:#fff;padding:5px 10px;border-radius:6px;font-size:12px;margin-left:6px;">
+        <option value="full">全文收尾翻译（推荐）</option><option value="chapter">逐章同步翻译</option>
+      </select>
+      <p style="font-size:10px;color:var(--text-muted);margin-top:4px;">模式一【逐章同步翻译】：写一章、精修一章、翻译一章，双语同步成型 | 模式二【全文收尾翻译】：全文成书后统一批量翻译</p>
+    </div>
+    <div id="translateParams" style="opacity:0.5;pointer-events:none;">
+      <div class="slider-group" style="margin-bottom:18px;"><div class="slider-label" style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px;"><span>翻译保真度（内容忠实度）</span><span class="slider-val green" id="val-trans-fidelity" style="color:var(--accent-green);">85%</span></div><input type="range" class="green-range" min="0" max="100" value="85" id="slider-trans-fidelity" oninput="updateSlider('trans-fidelity')"><div style="font-size:10px;color:var(--text-muted);margin-top:2px;">数值越高越贴合原文语义，不随意篡改剧情</div></div>
+      <div class="slider-group" style="margin-bottom:18px;"><div class="slider-label" style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px;"><span>翻译创意度（灵活度）</span><span class="slider-val green" id="val-trans-creative" style="color:var(--accent-green);">60%</span></div><input type="range" class="green-range" min="0" max="100" value="60" id="slider-trans-creative" oninput="updateSlider('trans-creative')"><div style="font-size:10px;color:var(--text-muted);margin-top:2px;">调节句式优化、词汇升级、文风微调，避免机械直译</div></div>
+      <div style="display:flex;gap:20px;flex-wrap:wrap;margin-top:16px;">
+        <div style="display:flex;align-items:center;gap:8px;"><span style="font-size:13px;color:var(--text-secondary);">英文风格：</span><select style="background:rgba(0,0,0,0.3);border:1px solid var(--border-color);color:#fff;padding:6px 12px;border-radius:6px;font-size:13px;"><option>US 美式</option><option>GB 英式</option></select></div>
+        <div style="display:flex;align-items:center;gap:8px;"><span style="font-size:13px;color:var(--text-secondary);">英编优化轮次：</span><select style="background:rgba(0,0,0,0.3);border:1px solid var(--border-color);color:#fff;padding:6px 12px;border-radius:6px;font-size:13px;"><option>1</option><option>2</option><option selected>3</option><option>4</option><option>5</option></select></div>
+      </div>
+      <div style="display:flex;gap:20px;flex-wrap:wrap;margin-top:12px;">
+        <div style="display:flex;align-items:center;gap:8px;"><span style="font-size:13px;color:var(--text-secondary);">英编审核轮次：</span><select style="background:rgba(0,0,0,0.3);border:1px solid var(--border-color);color:#fff;padding:6px 12px;border-radius:6px;font-size:13px;"><option>1</option><option selected>2</option><option>3</option></select></div>
+      </div>
+      <div style="font-size:10px;color:var(--accent-green);margin-top:10px;padding:8px 12px;background:rgba(76,175,132,0.04);border-radius:6px;">💡 翻译为纯可选拓展模块，默认关闭，完全不干扰基础中文仿写主流程。成品下载严格跟随配置：未开启仅下载中文成品；开启后同步出现中英双版本下载按钮。</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Step 5: 高阶自定义精修 ===== -->
+<section class="card" style="margin-bottom:24px;">
+  <div class="step-header" style="display:flex;align-items:center;gap:12px;margin-bottom:18px;">
+    <div class="step-num" style="width:34px;height:34px;border-radius:10px;background:var(--gold-grad);color:#2a1408;display:flex;align-items:center;justify-content:center;font-weight:800;">5</div>
+    <div class="step-title" style="font-size:18px;font-weight:700;">高阶自定义精修</div>
+  </div>
+  <div style="margin-bottom:16px;"><label style="font-size:14px;color:var(--text-secondary);display:block;margin-bottom:6px;">优化指令:</label><textarea id="customInstruct" class="custom-input" rows="2" placeholder="如：增强动作场景的张力，突出主角的内心独白…" style="width:100%;padding:12px;border-radius:10px;background:rgba(0,0,0,0.3);border:1px solid var(--border-soft);color:#fff;font-family:inherit;resize:vertical;"></textarea></div>
+  <div style="margin-bottom:16px;"><label style="font-size:14px;color:var(--text-secondary);display:block;margin-bottom:6px;">风格要求:</label><textarea id="customStyle" class="custom-input" rows="2" placeholder="如：采用金庸式武侠笔法…" style="width:100%;padding:12px;border-radius:10px;background:rgba(0,0,0,0.3);border:1px solid var(--border-soft);color:#fff;font-family:inherit;resize:vertical;"></textarea></div>
+  <div style="margin-bottom:12px;"><label style="font-size:14px;color:var(--text-secondary);display:block;margin-bottom:6px;">禁止词汇（逗号分隔）：</label><textarea id="customForbidden" class="custom-input" rows="2" placeholder="如：突然，忽然，但是，然而" style="width:100%;padding:12px;border-radius:10px;background:rgba(0,0,0,0.3);border:1px solid var(--border-soft);color:#fff;font-family:inherit;resize:vertical;"></textarea><p style="font-size:11px;color:var(--text-muted);margin-top:4px;">用英文逗号分隔多个词汇</p></div>
+</section>
+
+<!-- ===== Step 6: 智能质检 ===== -->
+<section class="card" style="margin-bottom:24px;">
+  <div class="step-header" style="display:flex;align-items:center;gap:12px;margin-bottom:18px;">
+    <div class="step-num" style="width:34px;height:34px;border-radius:10px;background:var(--gold-grad);color:#2a1408;display:flex;align-items:center;justify-content:center;font-weight:800;">6</div>
+    <div class="step-title" style="font-size:18px;font-weight:700;">智能质检</div>
+  </div>
+  <div style="display:flex;align-items:center;gap:20px;flex-wrap:wrap;margin-bottom:16px;">
+    <div style="display:flex;align-items:center;gap:8px;"><span style="font-size:14px;color:var(--text-primary);">严格模式</span><label class="toggle-switch"><input type="checkbox" id="strictMode"><span class="toggle-slider"></span></label><span style="font-size:11px;color:var(--text-muted);">【默认关闭】</span></div>
+    <div style="display:flex;align-items:center;gap:8px;"><span style="font-size:14px;color:var(--text-primary);">原创性检测</span><label class="toggle-switch"><input type="checkbox" id="originalCheck"><span class="toggle-slider"></span></label><span style="font-size:11px;color:var(--text-muted);">【默认关闭】</span></div>
+  </div>
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
+    <span style="font-size:15px;font-weight:600;color:#fff;">质控底线: <span style="color:var(--gold);">80 / 100 分</span></span>
+    <label class="toggle-switch"><input type="checkbox" id="qcToggle"><span class="toggle-slider"></span></label>
+    <span style="font-size:11px;color:var(--text-muted);">【默认关闭】</span>
+  </div>
+  <p style="font-size:11px;color:var(--text-muted);margin-bottom:16px;">质控底线 默认关闭</p>
+  <div style="font-size:12px;color:var(--text-muted);margin-bottom:12px;">分项总分：<span style="color:var(--accent-blue);">基础规范20分</span> <span style="color:var(--accent-green);">叙事逻辑25分</span> <span style="color:var(--gold);">阅读体验25分</span> <span style="color:var(--accent-blue);">风格适配20分</span> <span style="color:var(--accent-green);">内容质感10分</span></div>
+  <div class="quality-rule" style="padding:10px 14px;border-radius:8px;background:rgba(255,255,255,0.02);border:1px solid var(--border-soft);margin-bottom:10px;"><div class="rule-title" style="font-weight:700;color:var(--gold);">1. 基础规范质检：≥18 分</div><div class="rule-detail" style="font-size:12px;color:var(--text-secondary);">扣分边界：仅允许极个别错别字、标点瑕疵，无合规问题、无核心设定矛盾、无大面积格式错误</div></div>
+  <div class="quality-rule" style="padding:10px 14px;border-radius:8px;background:rgba(255,255,255,0.02);border:1px solid var(--border-soft);margin-bottom:10px;"><div class="rule-title" style="font-weight:700;color:var(--gold);">2. 叙事逻辑质检：≥20 分</div><div class="rule-detail" style="font-size:12px;color:var(--text-secondary);">扣分边界：无核心剧情硬伤、无人设严重 OOC，仅允许 1-2 处轻微逻辑不严谨</div></div>
+  <div class="quality-rule" style="padding:10px 14px;border-radius:8px;background:rgba(255,255,255,0.02);border:1px solid var(--border-soft);margin-bottom:10px;"><div class="rule-title" style="font-weight:700;color:var(--gold);">3. 阅读体验质检：≥20 分</div><div class="rule-detail" style="font-size:12px;color:var(--text-secondary);">扣分边界：节奏基本流畅，叙事配比合理，无大段灌水内容、无严重阅读卡顿</div></div>
+  <div class="quality-rule" style="padding:10px 14px;border-radius:8px;background:rgba(255,255,255,0.02);border:1px solid var(--border-soft);margin-bottom:10px;"><div class="rule-title" style="font-weight:700;color:var(--gold);">4. 风格适配质检：≥16 分</div><div class="rule-detail" style="font-size:12px;color:var(--text-secondary);">扣分边界：全文风格基本统一，誊造 / 仿写贴合度达标，无明显风格断层</div></div>
+  <div class="quality-rule" style="padding:10px 14px;border-radius:8px;background:rgba(255,255,255,0.02);border:1px solid var(--border-soft);"><div class="rule-title" style="font-weight:700;color:var(--gold);">5. 内容质感质检：≥8 分</div><div class="rule-detail" style="font-size:12px;color:var(--text-secondary);">扣分边界：有基本的细节表达，情绪与台词合格，无严重扁平感</div></div>
+</section>
+
+<!-- ===== Step 7: 执行 & 输出 ===== -->
+<section class="card">
+  <div class="step-header" style="display:flex;align-items:center;gap:12px;margin-bottom:18px;">
+    <div class="step-num" style="width:34px;height:34px;border-radius:10px;background:var(--gold-grad);color:#2a1408;display:flex;align-items:center;justify-content:center;font-weight:800;">7</div>
+    <div class="step-title" style="font-size:18px;font-weight:700;">执行 & 输出</div>
+  </div>
+  <p style="font-size:12px;color:var(--text-muted);margin-bottom:16px;">点「🚀 开始仿写」→ 100% → 步骤6自动展开 → 「⬇️ 下载作品」亮起 → 手动下载文件</p>
+  <div style="text-align:center;margin-bottom:20px;"><button class="btn-gold large pulse-anim" id="startWriteBtn" onclick="startWriting()">🚀 开始仿写</button> <button class="btn-dark" onclick="stopWriting()">⏹ 停止</button></div>
+  <div style="display:flex;gap:15px;flex-wrap:wrap;margin-bottom:16px;">
+    <div style="display:flex;align-items:center;gap:8px;"><span style="font-size:13px;color:var(--text-secondary);">断点修复</span><label class="toggle-switch"><input type="checkbox" id="breakpointFix"><span class="toggle-slider"></span></label><span style="font-size:11px;color:var(--text-muted);">【默认关闭】</span></div>
+    <div style="display:flex;align-items:center;gap:8px;"><span style="font-size:13px;color:var(--text-secondary);">仿写修复</span><label class="toggle-switch"><input type="checkbox" id="writeFix"><span class="toggle-slider"></span></label><span style="font-size:11px;color:var(--text-muted);">【默认关闭】</span></div>
+    <div style="display:flex;align-items:center;gap:8px;"><span style="font-size:13px;color:var(--text-secondary);">仿写记录</span><label class="toggle-switch"><input type="checkbox" id="writeLog"><span class="toggle-slider"></span></label><span style="font-size:11px;color:var(--text-muted);">【默认关闭】</span></div>
+    <div style="display:flex;align-items:center;gap:8px;"><span style="font-size:13px;color:var(--text-secondary);">二遍降AI润色</span><label class="toggle-switch"><input type="checkbox" id="polishToggle" checked><span class="toggle-slider"></span></label><span style="font-size:11px;color:var(--text-muted);">【默认开启·耗时翻倍】</span></div>
+  </div>
+  <div class="progress-container" id="progressContainer" style="display:none;margin-bottom:16px;">
+    <div class="progress-bar-bg" style="height:10px;background:rgba(255,255,255,0.1);border-radius:10px;overflow:hidden;"><div class="progress-bar-fill" id="progressBar" style="height:100%;width:0;background:var(--gold-grad);transition:width .3s;"></div></div>
+    <div class="progress-text" id="progressText" style="font-size:13px;color:var(--text-muted);margin-top:8px;">准备中...</div>
+  </div>
+  <div class="download-area" id="downloadArea" style="display:none;gap:12px;flex-wrap:wrap;">
+    <button class="btn-gold" onclick="downloadTxt()">⬇️ 下载 TXT 成品</button>
+    <button class="btn-gold" onclick="downloadDocx()">⬇️ 下载 DOCX 成品</button>
+    <button class="btn-dark btn-sm" id="downloadEnBtn" style="display:none;" onclick="downloadEn()">⬇️ 下载英文成品 (TXT)</button>
+  </div>
+  <pre id="resultPreview" style="display:none;margin-top:16px;padding:14px;border-radius:10px;background:rgba(0,0,0,0.3);border:1px solid var(--border-soft);color:var(--text-secondary);font-size:13px;line-height:1.7;white-space:pre-wrap;max-height:320px;overflow-y:auto;font-family:inherit;"></pre>
+  <div id="statusLog" style="margin-top:16px;max-height:200px;overflow-y:auto;font-size:12px;color:var(--text-muted);font-family:monospace;"></div>
+</section>
+
+</main>
+
+<!-- ============ Footer ============ -->
+<footer class="site-footer">
+  <div class="disclaimer">
+    本工具仅用于个人写作练习、学习参考。请勿在未获得原著版权授权的情况下进行商业使用，违规使用产生的法律风险由用户自行承担。<br>
+    工具免费开放，可通过微信、支付宝收款码爱心打赏，支持工具持续更新优化。
+  </div>
+  <div>更多AI工具：<a href="https://sqai.shop/" target="_blank">SqAI菱形AI综合平台</a> | <a href="https://joyful-narwhal-112ef4.netlify.app/" target="_blank">菱形AI图办秘书（小说封面生成专用）</a></div>
+  <div style="margin-top:8px;">创作交流与教程：添加微信 <strong>xnpc01</strong>（备注：小说），可免费进社群学习、获取工具跳转使用指南与答疑交流。</div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+<script src="common.js"></script>
+<script src="engine.js"></script>
+<script>
+/* ===== page2 交互逻辑（UI 部分；startWriting/handleFileSelect/download 由 engine.js 接管真实逻辑） ===== */
+function importAllChapters(){
+  var s = window.NOVEL_STATE || (window.NOVEL_ENGINE && window.NOVEL_ENGINE.STATE);
+  var n = s && s.chapters ? s.chapters.length : 0;
+  if(!n){ novelToast('暂无已解析章节，请先上传原文'); return; }
+  novelToast('已导入全部 ' + n + ' 章 ✓');
+  var i=document.getElementById('fileInfo'); if(i){ i.textContent = '✅ 已载入并解析：共 ' + n + ' 章，可直接开始仿写'; }
+}
+function selectChapters(){ novelToast('请在章节列表中勾选目标章节'); }
+function runHotAnalysis(){ novelToast('🔥 爆款分析生成中，完成后自动下载报告'); }
+
+function toggleModel(el){
+  if(!isNovelActivated()){ showActivationModal(); return; }
+  var cards = document.querySelectorAll('#modelGrid .model-card, #moreModelGrid .model-card');
+  var selected = document.querySelectorAll('.model-card.selected');
+  var isSel = el.classList.contains('selected');
+  if(!isSel && selected.length >= 4){ novelToast('最多同时选择 4 个模型'); return; }
+  el.classList.toggle('selected');
+  el.classList.toggle('not-selected');
+  // 更新 badge
+  var badge = el.querySelector('.model-badge');
+  if(el.classList.contains('selected')){ badge.textContent='✓'; badge.style.color='var(--gold)'; el.style.borderColor='var(--border-color)'; el.style.background='rgba(240,192,96,0.05)'; }
+  else { badge.textContent=''; badge.style.color='var(--text-muted)'; el.style.borderColor='var(--border-soft)'; el.style.background='transparent'; }
+  updateModelCount();
+}
+function updateModelCount(){
+  var n = document.querySelectorAll('.model-card.selected').length;
+  document.getElementById('modelCount').textContent = '已选择 ' + n + ' / 4 个模型';
+}
+function toggleMoreModels(){
+  var box = document.getElementById('moreModels');
+  var btn = document.getElementById('moreModelsBtn');
+  if(box.style.display==='none'){ box.style.display='block'; btn.textContent='收起 ▲'; }
+  else { box.style.display='none'; btn.textContent='展开更多 ▼'; }
+}
+function selectMode(el){
+  document.querySelectorAll('.mode-option').forEach(function(o){ o.classList.remove('active'); o.style.borderColor='var(--border-soft)'; o.style.color='var(--text-secondary)'; o.style.background='transparent'; });
+  el.classList.add('active'); el.style.borderColor='var(--gold)'; el.style.color='var(--gold)'; el.style.background='rgba(240,192,96,0.08)';
+}
+function selectWordCount(el){
+  document.querySelectorAll('.word-btn').forEach(function(o){ o.classList.remove('active'); o.style.borderColor='var(--border-soft)'; o.style.color='var(--text-secondary)'; o.style.background='var(--panel-2)'; });
+  el.classList.add('active'); el.style.borderColor='var(--gold)'; el.style.color='var(--gold)'; el.style.background='rgba(240,192,96,0.08)';
+  var words = parseInt(el.getAttribute('data-words'),10);
+  if(isNaN(words)){ document.getElementById('statusWordCount').textContent='自定义'; document.getElementById('statusChapters').textContent='—'; return; }
+  var w = (words/10000).toFixed(words>=10000?0:2);
+  document.getElementById('statusWordCount').textContent = (words>=10000? w+' 万字' : words+' 字');
+  document.getElementById('statusChapters').textContent = Math.max(1, Math.round(words/3000)) + ' 章';
+}
+function showCustomWords(){ novelToast('请输入 1万~3000万 自定义字数（演示）'); }
+function selectChapterSize(el){
+  document.querySelectorAll('.chapter-option').forEach(function(o){ o.classList.remove('active'); o.style.borderColor='var(--border-soft)'; o.style.color='var(--text-secondary)'; o.style.background='transparent'; });
+  el.classList.add('active'); el.style.borderColor='var(--gold)'; el.style.color='var(--gold)'; el.style.background='rgba(240,192,96,0.08)';
+}
+function selectFormat(el){
+  document.querySelectorAll('.format-option').forEach(function(o){ o.classList.remove('active'); o.style.borderColor='var(--border-soft)'; o.style.color='var(--text-secondary)'; o.style.background='transparent'; });
+  el.classList.add('active'); el.style.borderColor='var(--gold)'; el.style.color='var(--gold)'; el.style.background='rgba(240,192,96,0.08)';
+}
+function toggleDefaultMode(){ if(!document.getElementById('oneClickDefault').checked){ novelToast('已切换手动调参模式'); } }
+function resetAllParams(){ novelToast('已恢复全部默认参数'); }
+
+function switchTab(id){
+  document.querySelectorAll('.tab-content').forEach(function(t){ t.style.display='none'; t.classList.remove('active'); });
+  document.getElementById(id).style.display='block'; document.getElementById(id).classList.add('active');
+  document.querySelectorAll('.tab-btn').forEach(function(b){ b.style.borderColor='var(--border-soft)'; b.style.color='var(--text-secondary)'; b.style.background='var(--panel-2)'; });
+  event.target.style.borderColor='var(--gold)'; event.target.style.color='var(--gold)'; event.target.style.background='rgba(240,192,96,0.1)';
+}
+function updateSlider(key){
+  var val = document.getElementById('slider-'+key).value;
+  document.getElementById('val-'+key).textContent = val + '%';
+}
+function toggleTranslation(){
+  var on = document.getElementById('translateToggle').checked;
+  document.getElementById('translateStatus').textContent = on? '已开启' : '已关闭【默认】';
+  var box = document.getElementById('translateParams');
+  box.style.opacity = on? '1':'0.5';
+  box.style.pointerEvents = on? 'auto':'none';
+}
+/* startWriting / handleFileSelect / downloadTxt / downloadDocx / downloadEn / stopWriting
+   均由 engine.js 实现并挂到 window，本页按钮直接调用，无需在此重复定义。 */
+// 激活后回调（用回调注册器，避免被 common.js 的同名覆盖）
+window._postActivationHandlers = window._postActivationHandlers || [];
+window._postActivationHandlers.push(function(){ updateModelCount(); });
+</script>
+
+
+  <div class="modal-overlay" id="activationModal">
+  <div class="modal-box">
+    <button class="modal-close" onclick="hideActivationModal()">✕</button>
+    <h2>🔑 激活你的专属权限</h2>
+    <p class="modal-subtitle">输入16位激活码，解锁全部高阶仿写功能</p>
+    <div class="input-group">
+      <label>激活密码</label>
+      <input type="text" class="code-input" id="activationCode" placeholder="请输入16位激活密码" maxlength="16" autocomplete="off">
+      <div class="error-msg" id="activationError"></div>
+      <div class="success-msg" id="activationSuccess"></div>
+    </div>
+    <div class="checkbox-group" id="agreementGroup">
+      <input type="checkbox" id="agreeTerms">
+      <label for="agreeTerms">我已阅读并同意 <a href="#" onclick="event.stopPropagation()">《用户协议与免责声明》</a></label>
+    </div>
+    <div class="checkbox-group" id="rememberGroup">
+      <input type="checkbox" id="rememberActivation" checked>
+      <label for="rememberActivation">记住激活状态（7天内免重复激活）</label>
+    </div>
+    <button class="btn-activate pulse-anim" id="btnActivate" onclick="handleActivation()">立即激活</button>
+    <div class="modal-footer-links">
+      <a href="#" onclick="event.preventDefault(); showWechatPaymentModal();">咨询客服</a>
+      <a href="#" onclick="event.preventDefault(); showWechatPaymentModal();">获取激活码</a>
+    </div>
+  </div>
+</div>
+
+  <div class="modal-overlay" id="wechatModal">
+  <div class="modal-box" style="max-width:480px;">
+    <button class="modal-close" onclick="hideWechatPaymentModal()">✕</button>
+    <div style="text-align:center;margin-bottom:20px;">
+      <div style="display:inline-block;background:rgba(76,175,132,0.12);padding:4px 14px;border-radius:20px;font-size:12px;color:var(--accent-green);margin-bottom:10px;">💚 微信官方付款通道</div>
+      <h2 style="font-size:22px;font-weight:700;margin-bottom:6px;">扫码付款开通 · 秒到账</h2>
+      <p style="font-size:13px;color:var(--text-secondary);">付款后添加客服微信领取激活码，即刻解锁全站功能</p>
+    </div>
+    <div style="text-align:center;padding:24px 20px;background:rgba(255,255,255,0.02);border-radius:16px;border:2px dashed rgba(240,192,96,0.25);margin-bottom:18px;">
+      <div style="width:180px;height:180px;margin:0 auto 12px;background:#f8f8f8;border-radius:16px;border:1px solid #ddd;display:flex;align-items:center;justify-content:center;font-size:14px;color:#333;box-shadow:0 4px 20px rgba(0,0,0,0.3);">
+        <div style="text-align:center;"><div style="font-size:48px;margin-bottom:6px;">💎</div><div style="font-size:12px;">微信/支付宝<br>收款码</div></div>
+      </div>
+      <div style="display:flex;justify-content:center;gap:24px;flex-wrap:wrap;margin-bottom:10px;">
+        <div><div style="font-size:28px;font-weight:800;color:var(--gold);">¥30</div><div style="font-size:12px;color:var(--text-muted);">月卡 / 30天</div><div style="font-size:10px;color:var(--text-muted);text-decoration:line-through;">原价¥198</div></div>
+        <div style="width:1px;background:var(--border-soft);"></div>
+        <div><div style="font-size:28px;font-weight:800;color:var(--gold);">¥198</div><div style="font-size:12px;color:var(--text-muted);">年卡 / 365天</div><div style="font-size:10px;color:var(--text-muted);text-decoration:line-through;">原价¥798</div></div>
+      </div>
+      <p style="font-size:11px;color:var(--accent-green);margin-bottom:0;">✅ 支持微信扫码 · 支付宝扫码 · 付款即时到账</p>
+    </div>
+    <div style="text-align:center;padding:18px;background:rgba(240,192,96,0.05);border-radius:14px;border:1px solid rgba(240,192,96,0.15);margin-bottom:14px;">
+      <p style="font-size:13px;color:var(--text-secondary);margin-bottom:8px;">📱 付款后请添加客服微信领取激活码</p>
+      <div style="display:inline-flex;align-items:center;gap:10px;background:rgba(240,192,96,0.1);padding:12px 24px;border-radius:12px;border:1px solid rgba(240,192,96,0.25);cursor:pointer;" onclick="copyWechatFromDetail()" title="点击复制微信号">
+        <span style="font-size:20px;">💬</span>
+        <div style="text-align:left;"><div style="font-size:11px;color:var(--text-muted);">客服微信</div><div style="font-size:22px;font-weight:800;color:var(--gold);letter-spacing:1px;">xnpc01</div></div>
+        <span style="font-size:11px;color:var(--accent-green);">👆 点击复制</span>
+      </div>
+      <p style="font-size:11px;color:var(--text-muted);margin-top:8px;">添加时请备注：<strong style="color:var(--gold);">小说开卡</strong>，秒通过不等待</p>
+    </div>
+    <div style="font-size:12px;color:var(--text-secondary);line-height:1.8;padding:14px 16px;background:rgba(90,155,213,0.04);border-radius:10px;border:1px solid rgba(90,155,213,0.1);margin-bottom:14px;">
+      <strong style="color:var(--accent-blue);">📋 三步完成激活：</strong><br>
+      <span style="color:var(--gold);">①</span> 扫描上方二维码完成付款 →
+      <span style="color:var(--gold);">②</span> 添加客服微信 xnpc01（备注"小说开卡"）→
+      <span style="color:var(--gold);">③</span> 客服发送16位激活码 → 返回首页弹窗输入 → 解锁全部功能
+    </div>
+    <button class="detail-close-btn" onclick="hideWechatPaymentModal()" style="width:100%;">我知道了</button>
+  </div>
+</div>
+
+
+</body>
+</html>

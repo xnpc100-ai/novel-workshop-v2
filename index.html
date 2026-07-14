@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SqAI 菱形AI 小说仿写工坊 2.0 — 智能仿写 一键生成原创</title>
+<link rel="stylesheet" href="https://static-resources.nuwax.com/tailwind.min.css">
+<link rel="stylesheet" href="https://static-resources.nuwax.com/g-fonts.css">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- ============ 导航栏 ============ -->
+<nav class="navbar">
+  <div class="nav-brand">
+    <div class="logo-icon">◆</div>
+    <div class="brand-text">
+      <h1>小说仿写工坊 2.0</h1>
+      <span>AI 智能仿写 一键生成原创</span>
+    </div>
+  </div>
+  <div class="nav-links">
+    <a href="index.html" class="nav-link active">首页</a>
+    <a href="page2.html" class="nav-link">核心仿写</a>
+    <a href="page3.html" class="nav-link">自定义工作流</a>
+  </div>
+  <div class="nav-right">
+    <a href="https://sqai.shop/" target="_blank" class="nav-more-tools">更多AI工具</a>
+    <span class="status-badge status-inactive" id="navStatusBadge" onclick="showActivationModal()">立即激活</span>
+  </div>
+</nav>
+
+<!-- ============ 首屏 Hero ============ -->
+<header class="section" style="text-align:center;padding-top:80px;padding-bottom:40px;">
+  <div class="container">
+    <div style="display:inline-block;background:rgba(240,192,96,0.12);padding:6px 16px;border-radius:20px;font-size:13px;color:var(--gold);margin-bottom:20px;">🔥 SqAI 菱形AI 小说仿写工坊 2.0 全新升级</div>
+    <h1 style="font-size:46px;font-weight:900;line-height:1.2;margin-bottom:14px;background:linear-gradient(180deg,#fff,#f0c060);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;">小说仿写工坊 2.0 全新升级</h1>
+    <p style="font-size:16px;color:var(--text-secondary);max-width:680px;margin:0 auto 22px;">35 套专业工作流・3000 万字超长篇适配・全参数自定义仿写</p>
+    <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:34px;">
+      <span class="hero-tag" style="background:var(--panel-2);border:1px solid var(--border-color);color:var(--gold);padding:6px 16px;border-radius:20px;font-size:13px;">智能降重</span>
+      <span class="hero-tag" style="background:var(--panel-2);border:1px solid var(--border-color);color:var(--gold);padding:6px 16px;border-radius:20px;font-size:13px;">中英双语</span>
+      <span class="hero-tag" style="background:var(--panel-2);border:1px solid var(--border-color);color:var(--gold);padding:6px 16px;border-radius:20px;font-size:13px;">原创精修</span>
+      <span class="hero-tag" style="background:var(--panel-2);border:1px solid var(--border-color);color:var(--gold);padding:6px 16px;border-radius:20px;font-size:13px;">工作流自定义</span>
+      <span class="hero-tag" style="background:var(--panel-2);border:1px solid var(--border-color);color:var(--gold);padding:6px 16px;border-radius:20px;font-size:13px;">密钥后端加密</span>
+    </div>
+    <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;">
+      <button class="btn-gold pulse-anim" onclick="showActivationModal()">立即激活使用</button>
+      <button class="btn-outline" onclick="document.getElementById('upgradeSection').scrollIntoView({behavior:'smooth'})">查看功能详情</button>
+    </div>
+  </div>
+</header>
+
+<!-- ============ 2.0 四大核心能力 ============ -->
+<section class="section" id="upgradeSection">
+  <div class="container">
+    <div class="section-head">
+      <h2><span class="g">2.0 全新升级</span> 四大核心能力</h2>
+      <p>全维度覆盖小说仿写全场景需求</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:18px;">
+      <div class="card">
+        <div class="card-icon" style="font-size:34px;margin-bottom:12px;">📚</div>
+        <h3 style="font-size:18px;margin-bottom:8px;color:var(--gold);">超长篇适配</h3>
+        <p style="color:var(--text-secondary);font-size:14px;">3000 万字超长篇支持，分片解析不卡顿，智能压缩精简，千万字原著一键仿写</p>
+      </div>
+      <div class="card">
+        <div class="card-icon" style="font-size:34px;margin-bottom:12px;">🎛️</div>
+        <h3 style="font-size:18px;margin-bottom:8px;color:var(--gold);">全参数调控</h3>
+        <p style="color:var(--text-secondary);font-size:14px;">全参数无级自定义，还原度、创意度、精修度全程可调，35 套工作流智能匹配</p>
+      </div>
+      <div class="card">
+        <div class="card-icon" style="font-size:34px;margin-bottom:12px;">⚙️</div>
+        <h3 style="font-size:18px;margin-bottom:8px;color:var(--gold);">自定义工作流</h3>
+        <p style="color:var(--text-secondary);font-size:14px;">专属工作流搭建，10 步自由配置，自定义评分标准，私有模板保存</p>
+      </div>
+      <div class="card">
+        <div class="card-icon" style="font-size:34px;margin-bottom:12px;">🔒</div>
+        <h3 style="font-size:18px;margin-bottom:8px;color:var(--gold);">安全加密</h3>
+        <p style="color:var(--text-secondary);font-size:14px;">后端密钥全托管，密钥全程后端存储，前端零明文，防爬防盗用更安全</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 双模式仿写体系 ============ -->
+<section class="section">
+  <div class="container">
+    <div class="section-head">
+      <h2>双模式仿写体系</h2>
+      <p>开箱即用 + 自由定制全覆盖</p>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
+      <div class="card dual-card" style="cursor:pointer;border-top:3px solid var(--accent-blue);" onclick="window.location.href='page2.html'">
+        <h3 style="font-size:20px;margin-bottom:16px;">🚀 一键智能仿写・开箱即用</h3>
+        <ul class="feature-list" style="list-style:none;color:var(--text-secondary);font-size:14px;line-height:2;">
+          <li>✓ 35 套成熟仿写工作流</li>
+          <li>✓ 超大文件智能解析</li>
+          <li>✓ 多模型协同运算</li>
+          <li>✓ 中英双语多格式导出</li>
+        </ul>
+        <span class="card-btn blue-btn" style="display:inline-block;margin-top:18px;color:var(--accent-blue);font-weight:700;">进入仿写页 →</span>
+      </div>
+      <div class="card dual-card" style="cursor:pointer;border-top:3px solid var(--accent-green);" onclick="window.location.href='page3.html'">
+        <h3 style="font-size:20px;margin-bottom:16px;">🎯 高阶自定义・搭建专属规则</h3>
+        <ul class="feature-list" style="list-style:none;color:var(--text-secondary);font-size:14px;line-height:2;">
+          <li>✓ 10 步全流程自由配置</li>
+          <li>✓ 自定义评分标准</li>
+          <li>✓ 私有模板永久保存</li>
+          <li>✓ 公开模板全站共享</li>
+        </ul>
+        <span class="card-btn green-btn" style="display:inline-block;margin-top:18px;color:var(--accent-green);font-weight:700;">进入工作流页 →</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 小说作者交流群 ============ -->
+<section class="section">
+  <div class="container">
+    <div class="card" style="background:linear-gradient(135deg,rgba(157,107,214,0.12),rgba(90,155,213,0.08));border:1px solid var(--border-color);">
+      <h3 style="font-size:24px;margin-bottom:8px;">📢 小说作者交流群</h3>
+      <p class="community-subtitle" style="color:var(--text-secondary);margin-bottom:18px;">【新增】2.0 激活用户专属进群权益，群内同步功能教程与写作干货</p>
+      <ul class="benefit-list" style="list-style:none;color:var(--text-secondary);font-size:14px;line-height:2;max-width:720px;">
+        <li><span class="check-icon" style="color:var(--accent-green);">✅</span> 实时同步最新仿写技巧与行业动态</li>
+        <li><span class="check-icon" style="color:var(--accent-green);">✅</span> 免费获取专属仿写提示词模板</li>
+        <li><span class="check-icon" style="color:var(--accent-green);">✅</span> 优先体验新功能内测资格</li>
+        <li><span class="check-icon" style="color:var(--accent-green);">✅</span> 作者交流互助，共同提升创作效率</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 微信咨询 + 扫码付款 ============ -->
+<section class="section">
+  <div class="container">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
+      <div class="card payment-card">
+        <h4 style="font-size:18px;color:var(--gold);">💬 微信咨询</h4>
+        <p style="font-size:13px;color:var(--text-secondary);margin-bottom:14px;">专属客服一对一解答</p>
+        <div class="wechat-id" id="wechatId" onclick="copyWechat()" title="点击复制微信号" style="font-size:16px;color:#fff;cursor:pointer;background:rgba(240,192,96,0.1);padding:10px 14px;border-radius:10px;display:inline-block;border:1px solid var(--border-color);">微信号：xnpc01 <span style="font-size:11px;color:var(--accent-green);">👆点击复制</span></div>
+        <div class="qr-placeholder" style="width:160px;height:160px;margin:16px auto;background:rgba(255,255,255,0.04);border:1px dashed var(--border-color);border-radius:14px;display:flex;align-items:center;justify-content:center;color:var(--text-muted);font-size:13px;">微信二维码</div>
+        <p style="font-size:12px;color:var(--text-muted);">添加请备注：小说开卡<br>开通权限、发放干货素材、专属答疑</p>
+      </div>
+      <div class="card payment-card">
+        <h4 style="font-size:18px;color:var(--gold);">💰 扫码付款</h4>
+        <div style="display:flex;gap:18px;justify-content:center;margin:12px 0;">
+          <div style="text-align:center;"><div class="price-highlight" style="font-size:26px;font-weight:800;color:var(--gold);">¥30/月</div><div style="font-size:11px;color:var(--text-muted);text-decoration:line-through;">原价¥198</div></div>
+          <div style="width:1px;background:var(--border-soft);"></div>
+          <div style="text-align:center;"><div class="price-highlight" style="font-size:26px;font-weight:800;color:var(--gold);">¥198/年</div><div style="font-size:11px;color:var(--text-muted);text-decoration:line-through;">原价¥798</div></div>
+        </div>
+        <div class="qr-placeholder" style="width:160px;height:160px;margin:14px auto;background:rgba(255,255,255,0.04);border:1px dashed var(--border-color);border-radius:14px;display:flex;align-items:center;justify-content:center;color:var(--text-muted);font-size:13px;">收款二维码</div>
+        <p style="font-size:12px;color:var(--gold);margin-top:8px;text-align:center;">【新增】付款后自动获取 16 位激活码，输入上方弹窗即可激活使用</p>
+        <p style="font-size:12px;color:var(--text-muted);text-align:center;">支持微信、支付宝扫码付款<br>付款后自动登记信息，秒开通会员权限</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 限时会员权益套餐 ============ -->
+<section class="section">
+  <div class="container">
+    <div class="section-head">
+      <h2>限时会员权益套餐</h2>
+      <p>全部专属赠品，限时特惠</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:22px;max-width:760px;margin:0 auto;">
+      <div class="card plan-card" style="border:1px solid var(--border-soft);">
+        <span class="plan-badge monthly" style="display:inline-block;background:rgba(90,155,213,0.18);color:var(--accent-blue);padding:4px 14px;border-radius:14px;font-size:12px;margin-bottom:14px;">月卡</span>
+        <div class="plan-price" style="font-size:34px;font-weight:800;color:var(--gold);">¥60 <small style="font-size:14px;color:var(--text-muted);">/月</small></div>
+        <div class="plan-original" style="font-size:12px;color:var(--text-muted);text-decoration:line-through;margin-bottom:16px;">原价 ¥198/月</div>
+        <ul class="plan-features" style="list-style:none;color:var(--text-secondary);font-size:14px;line-height:2;">
+          <li>✅ 解锁全部AI模型</li>
+          <li>✅ 无限制仿写次数</li>
+          <li>✅ 全字数创作档位</li>
+          <li>✅ 全套基础变现教程</li>
+          <li>🎁 <strong style="color:var(--gold);">价值1980元</strong> 海外网文赚钱实战教程</li>
+          <li>🎁 每月4次定制小说封面+提示词优化+实操教程</li>
+        </ul>
+      </div>
+      <div class="card plan-card featured" style="border:2px solid var(--gold);position:relative;transform:scale(1.02);">
+        <span class="plan-badge yearly" style="display:inline-block;background:var(--gold-grad);color:#2a1408;padding:4px 14px;border-radius:14px;font-size:12px;font-weight:700;margin-bottom:14px;">🔥 年卡·推荐</span>
+        <div class="plan-price" style="font-size:34px;font-weight:800;color:var(--gold);">¥298 <small style="font-size:14px;color:var(--text-muted);">/年</small></div>
+        <div class="plan-original" style="font-size:12px;color:var(--text-muted);text-decoration:line-through;margin-bottom:16px;">原价 ¥798/年</div>
+        <ul class="plan-features" style="list-style:none;color:var(--text-secondary);font-size:14px;line-height:2;">
+          <li>✅ 全额包含月卡所有权益+全部赠品</li>
+          <li>✅ 新功能优先内测</li>
+          <li>✅ 一对一专属答疑</li>
+          <li>✅ 海外赛道专属资源群</li>
+          <li>✅ 定期爆款书单更新</li>
+          <li>🎁 <strong style="color:var(--gold);">价值3980元</strong> 小说剧转AI漫剧本工具大礼包</li>
+          <li>🎁 每月10次定制小说封面</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 行业趋势 + 优势 + 收益 + 教程 + 赛道 + 避坑 + 工具 ============ -->
+<section class="section">
+  <div class="container" style="display:grid;gap:40px;">
+    <div class="card">
+      <h3 style="font-size:22px;color:var(--gold);margin-bottom:12px;">📊 2026网文行业趋势 — AI仿写已成作者刚需</h3>
+      <p style="color:var(--text-secondary);font-size:14px;line-height:1.9;margin-bottom:12px;">当下网文行业彻底进入「效率制胜」时代，全网超40%签约新书、60%新媒体爆款网文，均依托AI辅助完成仿写、润色、节奏优化、大纲迭代。传统纯手动码字存在更新效率低、章节节奏混乱、套路老旧同质化、极易平台限流、变现收益极低等诸多痛点。</p>
+      <p style="color:var(--text-secondary);font-size:14px;line-height:1.9;">合规AI仿写可精准复刻爆款底层框架，优化章节节奏，重塑真人细腻文风，大幅提升作品完读率、追读率与签约过审率。无论是新手零成本快速起号、试错变现，还是资深作者批量量产、多平台增量增收，都是现阶段性价比最高、落地最快、风险最低的核心创作工具。</p>
+    </div>
+
+    <div class="card">
+      <h3 style="font-size:22px;color:var(--gold);margin-bottom:16px;">💪 四大核心仿写优势 — 全方位吊打纯手动写作</h3>
+      <h4 style="color:#fff;margin-bottom:6px;">1. 双模型协同校验创作</h4>
+      <p style="color:var(--text-secondary);font-size:14px;margin-bottom:12px;">内置6大行业顶级写作模型，独家支持双模型并行生成、双向逻辑互审，完美解决市面普通AI文风僵硬、剧情流水、人设崩塌、前后逻辑断层、长篇连载崩设定、烂尾等通病。可稳定支撑百万字超长连载，全程文风统一、人设连贯、剧情严谨，质量媲美专职手写作者。</p>
+      <h4 style="color:#fff;margin-bottom:6px;">2. 五维精准合规仿写</h4>
+      <p style="color:var(--text-secondary);font-size:14px;margin-bottom:12px;">覆盖大纲复刻、剧情框架、人物人设、章节节奏、文风质感五大核心仿写模式，精准拆解全网爆款网文底层赚钱逻辑。仅借鉴爆款优质框架与黄金节奏，不照搬原文内容，通过结构重组、话术改写、支线新增、人设优化实现仿写转原创，从根源规避查重、平台限流、版权纠纷风险，合规商用、放心变现。</p>
+      <h4 style="color:#fff;margin-bottom:6px;">3. 全场景全平台字数适配</h4>
+      <p style="color:var(--text-secondary);font-size:14px;margin-bottom:12px;">支持千字短大纲、短篇爽文、中篇连载、百万字超长篇全档位创作，可自定义字数、章节篇幅、段落节奏，完美适配番茄、七猫、起点、海外全平台发文规范。创作完成后可一键导出TXT、DOCX通用格式，无需二次排版，直接投稿上架。</p>
+      <h4 style="color:#fff;margin-bottom:6px;">4. 零门槛免配置开箱即用</h4>
+      <p style="color:var(--text-secondary);font-size:14px;">系统内置双重加密官方API密钥，全部模型接口预部署完成，无需用户充值模型、无需搭建运行环境、无需调试参数、无需专业操作。权限激活后直接一键生成内容，纯小白零基础也能秒上手。</p>
+    </div>
+
+    <div class="card">
+      <h3 style="font-size:22px;color:var(--gold);margin-bottom:6px;">📈 全网主流网文平台收益对比（新手选品不踩坑）</h3>
+      <div id="revenueChart" style="width:100%;height:360px;"></div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;margin-top:16px;">
+        <div>
+          <h4 style="color:var(--accent-blue);">🇨🇳 国内顶流平台</h4>
+          <p style="color:var(--text-secondary);font-size:13px;line-height:1.9;"><strong>番茄小说</strong>：流量天花板，短视频联动引流强，新手零门槛、起量最快，月收益3000-10000+<br><strong>七猫小说</strong>：流量稳定、新书扶持力度大，千字20元起保底，全勤福利稳定<br><strong>起点中文网</strong>：IP变现天花板，付费意愿强，爆款可斩获数十万版权收益<br><strong>黑岩、纵横</strong>：深耕细分蓝海赛道，内卷度低，极易产出小众爆款</p>
+        </div>
+        <div>
+          <h4 style="color:var(--accent-green);">🌍 海外跨境平台</h4>
+          <p style="color:var(--text-secondary);font-size:13px;line-height:1.9;"><strong>Webnovel</strong>：海外流量庞大，男频玄幻、都市文受众广<br><strong>GoodNovel、Dreame</strong>：女频言情、霸总文付费转化率远超国内<br><strong>Amazon Kindle</strong>：常年持续曝光，实现被动长尾躺赚收益</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3 style="font-size:22px;color:var(--gold);margin-bottom:16px;">📝 小白零基础标准化落地仿写教程</h3>
+      <h4 style="color:#fff;margin-bottom:6px;">1. 精准选品、对标爆款</h4>
+      <p style="color:var(--text-secondary);font-size:14px;margin-bottom:10px;">优先锁定2026年各大平台热门高流量赛道，包含都市脑洞、系统逆袭、短剧爽文、甜宠悬疑、海外霸总等品类，对标同平台近期新晋爆款新书，拆解开篇钩子、章节节奏、人设亮点、核心剧情框架。</p>
+      <h4 style="color:#fff;margin-bottom:6px;">2. AI仿写重塑、去同质化</h4>
+      <p style="color:var(--text-secondary);font-size:14px;margin-bottom:10px;">依托工具复刻爆款核心框架与黄金节奏，全程不照搬原文，自主更换人设、改写话术、新增支线剧情、调整故事走向，彻底去除AI机械感、流水账质感，规避平台查重、同质化限流问题。</p>
+      <h4 style="color:#fff;margin-bottom:6px;">3. 精细化节奏适配平台规则</h4>
+      <p style="color:var(--text-secondary);font-size:14px;margin-bottom:10px;">贴合当下用户碎片化阅读习惯，新媒体短文严格遵循300字一钩子节奏；长篇网文每章结尾埋坑留伏笔，持续勾住读者追读，大幅提升完读率、追读率、收藏率。</p>
+      <h4 style="color:#fff;margin-bottom:6px;">4. 一文多铺、内外双发增收</h4>
+      <p style="color:var(--text-secondary);font-size:14px;">单本优质作品优化完成后，根据不同平台规则微调文风与节奏，实现多平台同步分发；同时打磨海外适配版本，打通国内流量分成+海外跨境稿费双收益，最大化单本作品终身变现价值。</p>
+    </div>
+
+    <div class="card">
+      <h3 style="font-size:22px;color:var(--gold);margin-bottom:12px;">🎯 三大核心仿写赛道（全品类作者适配）</h3>
+      <p style="color:var(--text-secondary);font-size:14px;margin-bottom:10px;"><strong style="color:#fff;">1. 国内爆款网文仿写：</strong>精准对标番茄、七猫、起点主流热门爽文、脑洞文、短剧联动文，贴合平台审核规则与读者喜好，快速产出高流量合规新作。</p>
+      <p style="color:var(--text-secondary);font-size:14px;margin-bottom:10px;"><strong style="color:#fff;">2. 经典小说翻新仿写：</strong>复用经典玄幻、都市、言情名著优质剧情框架，保留经典吸粉骨架，优化老旧文风、更新现代通俗话术，规避版权风险的同时，复刻经典IP流量优势。</p>
+      <p style="color:var(--text-secondary);font-size:14px;">✅ <strong style="color:#fff;">3. 海外小说专项仿写：</strong>适配欧美、东南亚网文读者审美偏好，专攻高收益言情、霸总、玄幻赛道，解决国内作者不会创作海外文、跨境变现无思路的核心痛点。</p>
+    </div>
+
+    <div class="card">
+      <h3 style="font-size:22px;color:var(--gold);margin-bottom:16px;">⚠️ 全网作者必备核心避坑干货</h3>
+      <h4 style="color:var(--accent-green);margin-bottom:6px;">1. 版权合规避坑</h4>
+      <p style="color:var(--text-secondary);font-size:14px;margin-bottom:10px;">实操落地「仿写≠抄袭」核心逻辑，通过框架借鉴、内容原创、文风重塑三重优化，精准控制内容相似度，彻底规避平台查重、版权投诉风险。</p>
+      <h4 style="color:var(--accent-green);margin-bottom:6px;">2. AI文笔优化避坑</h4>
+      <p style="color:var(--text-secondary);font-size:14px;margin-bottom:10px;">专属AI润色改写实操技巧，针对性解决AI文笔僵硬、流水账、无情绪、同质化严重、逻辑空洞等问题，打磨出真人细腻文风，大幅提升作品过签率与读者粘性。</p>
+      <h4 style="color:var(--accent-green);margin-bottom:6px;">3. 平台规则避坑</h4>
+      <p style="color:var(--text-secondary);font-size:14px;">实时同步各大网文平台最新限流、违规、敏感审核规则，规避老旧淘汰套路、违禁剧情、敏感话术，保障作品稳定上架、持续获取平台流量。</p>
+    </div>
+
+    <div class="card">
+      <h3 style="font-size:22px;color:var(--gold);margin-bottom:12px;">🛡️ 独家风控检测工具体系（作者刚需自查利器）</h3>
+      <p style="color:var(--text-secondary);font-size:14px;margin-bottom:10px;">社群独家配套腾讯朱雀AI官方检测系统全套实操教程，该系统是目前全网主流网文平台审核对标核心数据库，精准适配网文创作者自查需求。</p>
+      <p style="color:var(--text-secondary);font-size:14px;">支持全文粘贴一键检测，可完成AI生成痕迹识别、原创度精准筛查、机器文案甄别、同质化查重核验、文案窗布合规自查多项核心检测。系统自动标记高风险段落、机械化语句、重复套路内容，搭配配套优化方案，可提前人工整改打磨，彻底解决仿写作品被判定AI文、隐形限流、原创度不达标、过审失败等难题。</p>
+    </div>
+
+    <div class="card">
+      <h3 style="font-size:22px;color:var(--gold);margin-bottom:16px;">👥 双模式分层社群服务（免费交流+付费专属）</h3>
+      <h4 style="color:var(--accent-blue);margin-bottom:6px;">1. 免费基础作者社群</h4>
+      <p style="color:var(--text-secondary);font-size:14px;margin-bottom:10px;">面向所有网文创作爱好者开放，无门槛入驻，主打创作交流、基础答疑、资源互通。社群常态化分享通用AI仿写思路、基础合规避坑常识、各平台基础发文规则、免费通用提示词模板。</p>
+      <h4 style="color:var(--accent-green);margin-bottom:6px;">2. 付费会员高阶专属社群（仅月/年卡会员准入）</h4>
+      <p style="color:var(--text-secondary);font-size:14px;">私密无广告、无闲杂人员，专注网文仿写变现深耕。涵盖2026各平台最新爆款书单拆解、冷热赛道风向预判、高阶精细化仿写提示词、全网查重避坑实操教程、海内外平台全套发文攻略、签约避坑技巧、专属过签话术模板、网文节奏优化秘籍、漫剧剧本改编思路、海外小说变现落地全套资料。</p>
+    </div>
+
+    <div class="card">
+      <h3 style="font-size:22px;color:var(--gold);margin-bottom:12px;">🔗 全套配套全链路创作工具</h3>
+      <p style="color:var(--text-secondary);font-size:14px;margin-bottom:8px;"><strong style="color:#fff;">1. SqAI菱形AI综合平台：</strong><a href="https://sqai.shop/" target="_blank" style="color:var(--accent-blue);">https://sqai.shop/</a> — 6000+专职作者在用的一站式AI服务平台，汇聚407+AI工具、818套实战创作场景、16套精品变现课程。</p>
+      <p style="color:var(--text-secondary);font-size:14px;"><strong style="color:#fff;">2. 菱形AI图办秘书：</strong><a href="https://joyful-narwhal-112ef4.netlify.app/" target="_blank" style="color:var(--accent-blue);">https://joyful-narwhal-112ef4.netlify.app/</a> — 网文作者专属封面生成工具，搭载通义万相AI模型，一键生成全平台合规网文封面。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 激活弹窗 ============ -->
+<div class="modal-overlay" id="activationModal">
+  <div class="modal-box">
+    <button class="modal-close" onclick="hideActivationModal()">✕</button>
+    <h2>🔑 激活你的专属权限</h2>
+    <p class="modal-subtitle">输入16位激活码，解锁全部高阶仿写功能</p>
+    <div class="input-group">
+      <label>激活密码</label>
+      <input type="text" class="code-input" id="activationCode" placeholder="请输入16位激活密码" maxlength="16" autocomplete="off">
+      <div class="error-msg" id="activationError"></div>
+      <div class="success-msg" id="activationSuccess"></div>
+    </div>
+    <div class="checkbox-group" id="agreementGroup">
+      <input type="checkbox" id="agreeTerms">
+      <label for="agreeTerms">我已阅读并同意 <a href="#" onclick="event.stopPropagation()">《用户协议与免责声明》</a></label>
+    </div>
+    <div class="checkbox-group" id="rememberGroup">
+      <input type="checkbox" id="rememberActivation" checked>
+      <label for="rememberActivation">记住激活状态（7天内免重复激活）</label>
+    </div>
+    <button class="btn-activate pulse-anim" id="btnActivate" onclick="handleActivation()">立即激活</button>
+    <div class="modal-footer-links">
+      <a href="#" onclick="event.preventDefault(); showWechatPaymentModal();">咨询客服</a>
+      <a href="#" onclick="event.preventDefault(); showWechatPaymentModal();">获取激活码</a>
+    </div>
+  </div>
+</div>
+
+<!-- ============ 微信付款弹窗 ============ -->
+<div class="modal-overlay" id="wechatModal">
+  <div class="modal-box" style="max-width:480px;">
+    <button class="modal-close" onclick="hideWechatPaymentModal()">✕</button>
+    <div style="text-align:center;margin-bottom:20px;">
+      <div style="display:inline-block;background:rgba(76,175,132,0.12);padding:4px 14px;border-radius:20px;font-size:12px;color:var(--accent-green);margin-bottom:10px;">💚 微信官方付款通道</div>
+      <h2 style="font-size:22px;font-weight:700;margin-bottom:6px;">扫码付款开通 · 秒到账</h2>
+      <p style="font-size:13px;color:var(--text-secondary);">付款后添加客服微信领取激活码，即刻解锁全站功能</p>
+    </div>
+    <div style="text-align:center;padding:24px 20px;background:rgba(255,255,255,0.02);border-radius:16px;border:2px dashed rgba(240,192,96,0.25);margin-bottom:18px;">
+      <div style="width:180px;height:180px;margin:0 auto 12px;background:#f8f8f8;border-radius:16px;border:1px solid #ddd;display:flex;align-items:center;justify-content:center;font-size:14px;color:#333;box-shadow:0 4px 20px rgba(0,0,0,0.3);">
+        <div style="text-align:center;"><div style="font-size:48px;margin-bottom:6px;">💎</div><div style="font-size:12px;">微信/支付宝<br>收款码</div></div>
+      </div>
+      <div style="display:flex;justify-content:center;gap:24px;flex-wrap:wrap;margin-bottom:10px;">
+        <div><div style="font-size:28px;font-weight:800;color:var(--gold);">¥30</div><div style="font-size:12px;color:var(--text-muted);">月卡 / 30天</div><div style="font-size:10px;color:var(--text-muted);text-decoration:line-through;">原价¥198</div></div>
+        <div style="width:1px;background:var(--border-soft);"></div>
+        <div><div style="font-size:28px;font-weight:800;color:var(--gold);">¥198</div><div style="font-size:12px;color:var(--text-muted);">年卡 / 365天</div><div style="font-size:10px;color:var(--text-muted);text-decoration:line-through;">原价¥798</div></div>
+      </div>
+      <p style="font-size:11px;color:var(--accent-green);margin-bottom:0;">✅ 支持微信扫码 · 支付宝扫码 · 付款即时到账</p>
+    </div>
+    <div style="text-align:center;padding:18px;background:rgba(240,192,96,0.05);border-radius:14px;border:1px solid rgba(240,192,96,0.15);margin-bottom:14px;">
+      <p style="font-size:13px;color:var(--text-secondary);margin-bottom:8px;">📱 付款后请添加客服微信领取激活码</p>
+      <div style="display:inline-flex;align-items:center;gap:10px;background:rgba(240,192,96,0.1);padding:12px 24px;border-radius:12px;border:1px solid rgba(240,192,96,0.25);cursor:pointer;" onclick="copyWechatFromDetail()" title="点击复制微信号">
+        <span style="font-size:20px;">💬</span>
+        <div style="text-align:left;"><div style="font-size:11px;color:var(--text-muted);">客服微信</div><div style="font-size:22px;font-weight:800;color:var(--gold);letter-spacing:1px;">xnpc01</div></div>
+        <span style="font-size:11px;color:var(--accent-green);">👆 点击复制</span>
+      </div>
+      <p style="font-size:11px;color:var(--text-muted);margin-top:8px;">添加时请备注：<strong style="color:var(--gold);">小说开卡</strong>，秒通过不等待</p>
+    </div>
+    <div style="font-size:12px;color:var(--text-secondary);line-height:1.8;padding:14px 16px;background:rgba(90,155,213,0.04);border-radius:10px;border:1px solid rgba(90,155,213,0.1);margin-bottom:14px;">
+      <strong style="color:var(--accent-blue);">📋 三步完成激活：</strong><br>
+      <span style="color:var(--gold);">①</span> 扫描上方二维码完成付款 →
+      <span style="color:var(--gold);">②</span> 添加客服微信 xnpc01（备注"小说开卡"）→
+      <span style="color:var(--gold);">③</span> 客服发送16位激活码 → 返回首页弹窗输入 → 解锁全部功能
+    </div>
+    <button class="detail-close-btn" onclick="hideWechatPaymentModal()" style="width:100%;">我知道了</button>
+  </div>
+</div>
+
+<!-- ============ Footer ============ -->
+<footer class="site-footer">
+  <div class="disclaimer">
+    本工具仅用于个人写作练习、学习参考、合规原创改写，禁止未授权商用抄袭、侵权搬运、违规套利，违规使用产生的一切法律风险与账号问题由用户自行承担。<br>
+    平台基础功能免费开放，开通会员即可解锁全部高阶仿写权限、全套工具资源与专属创作干货礼包。<br>
+    激活码为虚拟商品，一经激活概不退换，请确认后购买。【新增】
+  </div>
+  <div>© 2026 SqAI 菱形AI小说仿写工坊2.0 | <a href="https://sqai.shop/" target="_blank">SqAI综合平台</a> | <a href="https://joyful-narwhal-112ef4.netlify.app/" target="_blank">AI图办秘书</a></div>
+  <div style="margin-top:8px;">添加微信 <strong>xnpc01</strong>（备注：小说），可免费进社群学习、获取工具跳转使用指南与答疑交流。</div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+<script src="common.js"></script>
+<script>
+  // ---- 收益对比图表（模拟数据，声明式）----
+  document.addEventListener("DOMContentLoaded", function(){
+    if(window.echarts){
+      var chart = echarts.init(document.getElementById('revenueChart'));
+      var option = {
+        backgroundColor:'transparent',
+        tooltip:{trigger:'axis',axisPointer:{type:'shadow'}},
+        legend:{data:['新手月收益(元)','资深作者月收益(元)'],textStyle:{color:'#c7bcd9'}},
+        grid:{left:'3%',right:'4%',bottom:'3%',top:50,containLabel:true},
+        xAxis:{type:'category',data:['番茄小说','七猫小说','起点中文网','Webnovel','GoodNovel','Amazon Kindle'],axisLine:{lineStyle:{color:'#5a4a7a'}},axisLabel:{color:'#c7bcd9',fontSize:11}},
+        yAxis:{type:'value',axisLabel:{color:'#8f82a6'},splitLine:{lineStyle:{color:'rgba(255,255,255,0.06)'}}},
+        series:[
+          {name:'新手月收益(元)',type:'bar',data:[6000,4000,5500,4500,3500,3000],itemStyle:{color:'#5a9bd5',borderRadius:[6,6,0,0]}},
+          {name:'资深作者月收益(元)',type:'bar',data:[12000,9000,30000,11000,9000,8000],itemStyle:{color:'#f0c060',borderRadius:[6,6,0,0]}}
+        ]
+      };
+      chart.setOption(option);
+      window.addEventListener('resize', function(){ chart.resize(); });
+    }
+  });
+</script>
+</body>
+</html>

@@ -144,11 +144,13 @@
       <div class="card payment-card">
         <h4 style="font-size:18px;color:var(--gold);">💰 扫码付款</h4>
         <div style="display:flex;gap:18px;justify-content:center;margin:12px 0;">
-          <div style="text-align:center;"><div class="price-highlight" style="font-size:26px;font-weight:800;color:var(--gold);">¥30/月</div><div style="font-size:11px;color:var(--text-muted);text-decoration:line-through;">原价¥198</div></div>
+          <div style="text-align:center;"><div class="price-highlight" style="font-size:26px;font-weight:800;color:var(--gold);">¥60/月</div><div style="font-size:11px;color:var(--text-muted);text-decoration:line-through;">原价¥198</div></div>
           <div style="width:1px;background:var(--border-soft);"></div>
-          <div style="text-align:center;"><div class="price-highlight" style="font-size:26px;font-weight:800;color:var(--gold);">¥198/年</div><div style="font-size:11px;color:var(--text-muted);text-decoration:line-through;">原价¥798</div></div>
+          <div style="text-align:center;"><div class="price-highlight" style="font-size:26px;font-weight:800;color:var(--gold);">¥398/年</div><div style="font-size:11px;color:var(--text-muted);text-decoration:line-through;">原价¥798</div></div>
         </div>
-        <div class="qr-placeholder" style="width:160px;height:160px;margin:14px auto;background:rgba(255,255,255,0.04);border:1px dashed var(--border-color);border-radius:14px;display:flex;align-items:center;justify-content:center;color:var(--text-muted);font-size:13px;">收款二维码</div>
+        <div class="qr-container" style="width:160px;height:160px;margin:14px auto;background:#fff;border-radius:14px;overflow:hidden;display:flex;align-items:center;justify-content:center;">
+          <img src="wechat-qr.png" alt="微信收款码" style="width:100%;height:100%;object-fit:cover;" onerror="this.style.display='none';this.parentElement.innerHTML='<span style=\\'color:var(--text-muted);font-size:13px;\\'>请上传二维码</span>';">
+        </div>
         <p style="font-size:12px;color:var(--gold);margin-top:8px;text-align:center;">【新增】付款后自动获取 16 位激活码，输入上方弹窗即可激活使用</p>
         <p style="font-size:12px;color:var(--text-muted);text-align:center;">支持微信、支付宝扫码付款<br>付款后自动登记信息，秒开通会员权限</p>
       </div>
@@ -179,7 +181,7 @@
       </div>
       <div class="card plan-card featured" style="border:2px solid var(--gold);position:relative;transform:scale(1.02);">
         <span class="plan-badge yearly" style="display:inline-block;background:var(--gold-grad);color:#2a1408;padding:4px 14px;border-radius:14px;font-size:12px;font-weight:700;margin-bottom:14px;">🔥 年卡·推荐</span>
-        <div class="plan-price" style="font-size:34px;font-weight:800;color:var(--gold);">¥298 <small style="font-size:14px;color:var(--text-muted);">/年</small></div>
+        <div class="plan-price" style="font-size:34px;font-weight:800;color:var(--gold);">¥398 <small style="font-size:14px;color:var(--text-muted);">/年</small></div>
         <div class="plan-original" style="font-size:12px;color:var(--text-muted);text-decoration:line-through;margin-bottom:16px;">原价 ¥798/年</div>
         <ul class="plan-features" style="list-style:none;color:var(--text-secondary);font-size:14px;line-height:2;">
           <li>✅ 全额包含月卡所有权益+全部赠品</li>

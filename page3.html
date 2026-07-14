@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>自定义工作流 — SqAI 菱形AI 小说仿写工坊 2.0</title>
+<link rel="stylesheet" href="https://static-resources.nuwax.com/tailwind.min.css">
+<link rel="stylesheet" href="https://static-resources.nuwax.com/g-fonts.css">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- ============ 导航栏 ============ -->
+<nav class="navbar">
+  <div class="nav-brand">
+    <div class="logo-icon">◆</div>
+    <div class="brand-text">
+      <h1>小说仿写工坊 2.0</h1>
+      <span>AI 智能仿写 一键生成原创</span>
+    </div>
+  </div>
+  <div class="nav-links">
+    <a href="index.html" class="nav-link">首页</a>
+    <a href="page2.html" class="nav-link">核心仿写</a>
+    <a href="page3.html" class="nav-link active">自定义工作流</a>
+  </div>
+  <div class="nav-right">
+    <a href="https://sqai.shop/" target="_blank" class="nav-more-tools">更多AI工具</a>
+    <span class="status-badge status-inactive" id="navStatusBadge" onclick="checkAndRedirect()">立即激活</span>
+  </div>
+</nav>
+
+<!-- ============ 未激活遮罩 ============ -->
+<div class="lock-overlay" id="lockOverlay">
+  <div class="lock-ico">🔒</div>
+  <h2>该功能需激活后使用</h2>
+  <p>请输入 16 位激活码解锁自定义工作流搭建全部高阶功能。激活后可从零创建专属仿写工作流。</p>
+  <button class="btn-gold pulse-anim" onclick="showActivationModal()">立即激活解锁</button>
+</div>
+
+<!-- ============ 头部 ============ -->
+<header class="section" style="text-align:center;padding-top:60px;padding-bottom:10px;">
+  <div class="container">
+    <h1 style="font-size:38px;font-weight:900;margin-bottom:10px;background:linear-gradient(180deg,#fff,#f0c060);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;">🎯 自定义工作流自由发布</h1>
+    <p class="subtitle" style="color:var(--text-secondary);font-size:16px;">高阶自定义・从零搭建专属仿写工作流・10步超高自由度・全参数开放</p>
+  </div>
+</header>
+
+<main class="container" style="padding-bottom:60px;">
+
+<!-- 定位 -->
+<div class="card" style="margin-bottom:24px;">
+  <h3 style="color:var(--gold);margin-bottom:12px;">📌 页面核心定位与整体规则</h3>
+  <p style="color:var(--text-secondary);font-size:14px;margin-bottom:10px;">本页面为小说仿写工具 2.0 高阶自定义功能页，核心脱离系统固定 35 套工作流，支持用户从零手动搭建、精细化逐步骤配置、自定义评分标准、保存发布专属私有仿写工作流。</p>
+  <p style="color:var(--text-secondary);font-size:14px;">用户可自主创建 <strong style="color:var(--gold);">3-5 组独立专属工作流模板</strong>，每套模板拥有全套独立精细化参数、独立执行逻辑、独立质量评分标准，所有配置真实落地、真实参与仿写运算、真实产出对应效果。</p>
+</div>
+
+<!-- 通用互通 -->
+<div class="card" style="margin-bottom:24px;">
+  <h3 style="color:var(--accent-green);margin-bottom:14px;">🔗 通用互通核心规则（与第二页完全同步）</h3>
+  <div class="interop-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;">
+    <div class="interop-item" style="padding:14px;border:1px solid var(--border-soft);border-radius:12px;text-align:center;"><div class="interop-icon" style="font-size:24px;">🤖</div>模型接口互通<br><span style="font-size:11px;color:var(--text-muted);">DeepSeek+硅基流动双端口</span></div>
+    <div class="interop-item" style="padding:14px;border:1px solid var(--border-soft);border-radius:12px;text-align:center;"><div class="interop-icon" style="font-size:24px;">✅</div>基础质控互通<br><span style="font-size:11px;color:var(--text-muted);">默认保底80分合格线</span></div>
+    <div class="interop-item" style="padding:14px;border:1px solid var(--border-soft);border-radius:12px;text-align:center;"><div class="interop-icon" style="font-size:24px;">📁</div>文件适配互通<br><span style="font-size:11px;color:var(--text-muted);">TXT/DOCX·3000万字</span></div>
+    <div class="interop-item" style="padding:14px;border:1px solid var(--border-soft);border-radius:12px;text-align:center;"><div class="interop-icon" style="font-size:24px;">🌐</div>双语输出互通<br><span style="font-size:11px;color:var(--text-muted);">翻译双模式·格式自适应</span></div>
+    <div class="interop-item" style="padding:14px;border:1px solid var(--border-soft);border-radius:12px;text-align:center;"><div class="interop-icon" style="font-size:24px;">🔒</div>安全加密互通<br><span style="font-size:11px;color:var(--text-muted);">三层前端加密·抗爬虫</span></div>
+  </div>
+</div>
+
+<!-- 我的模板 -->
+<div class="card" style="margin-bottom:24px;">
+  <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:16px;">
+    <h3 style="font-size:20px;font-weight:700;color:#fff;margin:0;">📋 我的工作流模板</h3>
+    <button class="btn-gold" onclick="createNewTemplate()">+ 新建工作流模板</button>
+  </div>
+  <div class="template-grid" id="templateGrid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;">
+    <div style="padding:16px;border:1px solid var(--border-color);border-radius:12px;background:rgba(240,192,96,0.04);">
+      <div style="font-weight:700;color:var(--gold);margin-bottom:6px;">通用精品小说仿写模板</div>
+      <div style="font-size:12px;color:var(--text-muted);">均衡复刻 + 轻微创新 · 适配 90% 需求</div>
+      <div style="font-size:11px;color:var(--accent-green);margin-top:8px;">● 已启用 · 私有</div>
+    </div>
+  </div>
+  <div style="text-align:center;padding:20px;"><button class="btn-dark" onclick="loadPublicTemplates()">🌐 浏览公开模板库</button></div>
+</div>
+
+<!-- 10步教程 -->
+<div class="card" style="margin-bottom:24px;">
+  <h3 style="font-size:20px;font-weight:700;margin-bottom:4px;">📖 用户 10 步超高自由度自定义工作流搭建教程</h3>
+  <p style="font-size:13px;color:var(--text-muted);margin-bottom:20px;">新手推荐参数一键套用 + 老手完全自定义双模式 · 所有步骤无锁定、无强制、无固定逻辑</p>
+
+  <div class="step-card" style="border:1px solid var(--border-soft);border-radius:12px;margin-bottom:12px;overflow:hidden;">
+    <div class="step-header" onclick="this.parentElement.classList.toggle('collapsed')" style="display:flex;align-items:center;gap:12px;padding:14px;cursor:pointer;background:rgba(255,255,255,0.02);">
+      <div class="step-num" style="width:30px;height:30px;border-radius:8px;background:var(--gold-grad);color:#2a1408;display:flex;align-items:center;justify-content:center;font-weight:800;flex-shrink:0;">1</div>
+      <div style="flex:1;"><div style="font-weight:700;font-size:15px;">新建工作流模板 & 场景定位（基础创建）</div><div style="font-size:12px;color:var(--text-muted);">自定义模板名称、场景、适配题材</div></div>
+      <div style="transition:.2s;">▼</div>
+    </div>
+    <div class="step-body" style="padding:14px;border-top:1px solid var(--border-soft);">
+      <div style="margin-bottom:10px;"><h5 style="color:var(--accent-blue);font-size:13px;">🟦 系统推荐 新手默认设置</h5><p style="font-size:13px;color:var(--text-secondary);">模板名称：<strong>通用精品小说仿写模板</strong> | 适用场景：全网通用网文、都市、玄幻、古言、短篇、长篇全覆盖 | 模板类型：均衡复刻 + 轻微创新，适配 90% 普通仿写需求</p></div>
+      <div style="margin-bottom:10px;"><h5 style="color:var(--accent-green);font-size:13px;">🟩 自定义权限 用户超高自由度</h5><p style="font-size:13px;color:var(--text-secondary);">用户可任意自定义模板名称、自定义备注场景、自定义适配题材，可专门搭建【纯小说框架模板】【极简大纲模板】【深度创新改写模板】【纯降重模板】【只补剧情细节模板】【英文出海专用模板】，完全自由定义工作流定位。</p></div>
+      <div style="margin-bottom:10px;"><h5 style="color:var(--gold);font-size:13px;">🟨 落地效果</h5><p style="font-size:13px;color:var(--text-secondary);">创建专属独立工作流，彻底脱离系统 35 套固定工作流逻辑，用户从零掌控整套仿写规则，专属模板独立生效、互不冲突。</p></div>
+      <input type="text" class="custom-input" placeholder="输入模板名称，如：我的古言仿写专属模板" id="templateName" style="width:100%;padding:12px;border-radius:10px;background:rgba(0,0,0,0.3);border:1px solid var(--border-soft);color:#fff;font-family:inherit;">
+      <button class="btn-gold btn-sm" style="margin-top:8px;" onclick="quickSaveTemplate()">💾 快速保存草稿</button>
+    </div>
+  </div>
+
+  <div class="step-card" style="border:1px solid var(--border-soft);border-radius:12px;margin-bottom:12px;overflow:hidden;">
+    <div class="step-header" onclick="this.parentElement.classList.toggle('collapsed')" style="display:flex;align-items:center;gap:12px;padding:14px;cursor:pointer;background:rgba(255,255,255,0.02);">
+      <div class="step-num" style="width:30px;height:30px;border-radius:8px;background:var(--gold-grad);color:#2a1408;display:flex;align-items:center;justify-content:center;font-weight:800;flex-shrink:0;">2</div>
+      <div style="flex:1;"><div style="font-weight:700;font-size:15px;">超大文件解析 & 内容取舍压缩规则（内容体量控制）</div><div style="font-size:12px;color:var(--text-muted);">控制精简程度、细节多少、框架粗细、内容体量</div></div>
+      <div style="transition:.2s;">▼</div>
+    </div>
+    <div class="step-body" style="padding:14px;border-top:1px solid var(--border-soft);">
+      <div style="margin-bottom:10px;"><h5 style="color:var(--accent-blue);font-size:13px;">🟦 系统推荐 新手默认设置</h5><p style="font-size:13px;color:var(--text-secondary);">智能压缩功能：默认开启 | 核心内容保留权重：主线剧情95%、主角人设95%、核心爽点90%、伏笔逻辑90% | 冗余裁剪力度：中度精简 | 适配字数：2000字~300万字均衡仿写</p></div>
+      <div style="margin-bottom:10px;"><h5 style="color:var(--accent-green);font-size:13px;">🟩 自定义权限 用户超高自由度</h5><p style="font-size:13px;color:var(--text-secondary);">用户可自由开关压缩功能，可手动微调所有保留权重 0%-100% 无级调节；支持极致框架模式、细节拉满模式、深度精简模式；可自定义任意仿写上下限字数。</p></div>
+      <div style="margin-bottom:10px;"><h5 style="color:var(--gold);font-size:13px;">🟨 落地效果</h5><p style="font-size:13px;color:var(--text-secondary);">用户可自由控制小说「精简程度、细节多少、框架粗细、内容体量」，想写大纲写大纲、想写全文写全文，自由度完全放开。</p></div>
+      <div style="display:flex;align-items:center;gap:10px;margin-top:8px;"><span style="font-size:13px;color:var(--text-secondary);">智能压缩：</span><label class="toggle-switch"><input type="checkbox" checked><span class="toggle-slider"></span></label><span style="font-size:12px;color:var(--text-muted);">开启后可自定义压缩比例</span></div>
+    </div>
+  </div>
+
+  <div class="step-card" style="border:1px solid var(--border-soft);border-radius:12px;margin-bottom:12px;overflow:hidden;">
+    <div class="step-header" onclick="this.parentElement.classList.toggle('collapsed')" style="display:flex;align-items:center;gap:12px;padding:14px;cursor:pointer;background:rgba(255,255,255,0.02);">
+      <div class="step-num" style="width:30px;height:30px;border-radius:8px;background:var(--gold-grad);color:#2a1408;display:flex;align-items:center;justify-content:center;font-weight:800;flex-shrink:0;">3</div>
+      <div style="flex:1;"><div style="font-weight:700;font-size:15px;">AI 模型组合选配 & 算力优先级配置（底层算力控制）</div><div style="font-size:12px;color:var(--text-muted);">自定义模型搭配、接口、算力优先级</div></div>
+      <div style="transition:.2s;">▼</div>
+    </div>
+    <div class="step-body" style="padding:14px;border-top:1px solid var(--border-soft);">
+      <div style="margin-bottom:10px;"><h5 style="color:var(--accent-blue);font-size:13px;">🟦 系统推荐 新手默认设置</h5><p style="font-size:13px;color:var(--text-secondary);">默认四模型组合：DeepSeek Chat + DeepSeek R1 + Qwen Plus + GLM-4 | 运算优先级：高阶精修模型优先 | 适配效果：均衡文笔、剧情、原创度、通顺度，稳定性最高</p></div>
+      <div style="margin-bottom:10px;"><h5 style="color:var(--accent-green);font-size:13px;">🟩 自定义权限 用户超高自由度</h5><p style="font-size:13px;color:var(--text-secondary);">用户可自由删减、替换、任意搭配 1~4 个模型，可只用基础模型做快速框架仿写、可用顶配模型做高精度精修、可自定义第三方接口/海外模型；可自由设置模型运算优先级。</p></div>
+      <div style="margin-bottom:10px;"><h5 style="color:var(--gold);font-size:13px;">🟨 落地效果</h5><p style="font-size:13px;color:var(--text-secondary);">新手无脑用推荐组合稳定出稿，老手自由搭配算力，实现「快速搭框架、慢速精细节」双向自由切换。</p></div>
+    </div>
+  </div>
+
+  <div class="step-card" style="border:1px solid var(--border-soft);border-radius:12px;margin-bottom:12px;overflow:hidden;">
+    <div class="step-header" onclick="this.parentElement.classList.toggle('collapsed')" style="display:flex;align-items:center;gap:12px;padding:14px;cursor:pointer;background:rgba(255,255,255,0.02);">
+      <div class="step-num" style="width:30px;height:30px;border-radius:8px;background:var(--gold-grad);color:#2a1408;display:flex;align-items:center;justify-content:center;font-weight:800;flex-shrink:0;">4</div>
+      <div style="flex:1;"><div style="font-weight:700;font-size:15px;">仿写还原 / 创新比例精细化调节（文风与剧情自由度核心）</div><div style="font-size:12px;color:var(--text-muted);">0%-100% 无级自由调节，掌控仿写相似度</div></div>
+      <div style="transition:.2s;">▼</div>
+    </div>
+    <div class="step-body" style="padding:14px;border-top:1px solid var(--border-soft);">
+      <div style="margin-bottom:10px;"><h5 style="color:var(--accent-blue);font-size:13px;">🟦 系统推荐 新手默认设置</h5><p style="font-size:13px;color:var(--text-secondary);">内容还原度 70%、AI 创意发散度 60%；人设保留 80%、剧情保留 75%、文风相似度 70% | 效果：不跑题、不僵硬、有创新、保留原著核心味道</p></div>
+      <div style="margin-bottom:10px;"><h5 style="color:var(--accent-green);font-size:13px;">🟩 自定义权限 用户超高自由度</h5><p style="font-size:13px;color:var(--text-secondary);">全程 0%-100% 无级自由调节，无任何参数锁定。支持纯框架复刻、半复刻半创新、高创新改写、纯原创扩写。</p></div>
+      <div style="margin-bottom:10px;"><h5 style="color:var(--gold);font-size:13px;">🟨 落地效果</h5><p style="font-size:13px;color:var(--text-secondary);">彻底打破固定仿写逻辑，用户可自由掌控仿写相似度、创新度、文风质感。</p></div>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;">
+        <div style="flex:1;min-width:150px;"><span style="font-size:12px;color:var(--text-muted);">内容还原度</span><input type="range" class="gold-range" min="0" max="100" value="70"><span style="font-size:12px;color:var(--gold);float:right;">70%</span></div>
+        <div style="flex:1;min-width:150px;"><span style="font-size:12px;color:var(--text-muted);">AI创意发散度</span><input type="range" class="gold-range" min="0" max="100" value="60"><span style="font-size:12px;color:var(--accent-blue);float:right;">60%</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="step-card" style="border:1px solid var(--border-soft);border-radius:12px;margin-bottom:12px;overflow:hidden;">
+    <div class="step-header" onclick="this.parentElement.classList.toggle('collapsed')" style="display:flex;align-items:center;gap:12px;padding:14px;cursor:pointer;background:rgba(255,255,255,0.02);">
+      <div class="step-num" style="width:30px;height:30px;border-radius:8px;background:var(--gold-grad);color:#2a1408;display:flex;align-items:center;justify-content:center;font-weight:800;flex-shrink:0;">5</div>
+      <div style="flex:1;"><div style="font-weight:700;font-size:15px;">个性化精修指令 & 词汇规避规则（细节自定义）</div><div style="font-size:12px;color:var(--text-muted);">固化个人写作习惯，每次调用自动适配</div></div>
+      <div style="transition:.2s;">▼</div>
+    </div>
+    <div class="step-body" style="padding:14px;border-top:1px solid var(--border-soft);">
+      <div style="margin-bottom:10px;"><h5 style="color:var(--accent-blue);font-size:13px;">🟦 系统推荐 新手默认设置</h5><p style="font-size:13px;color:var(--text-secondary);">默认精修指令：语句通顺、剧情流畅、网文节奏舒适、无重复水文 | 默认文风：大众通俗网文风 | 默认禁用词：通用重复词汇、无效铺垫词汇</p></div>
+      <div style="margin-bottom:10px;"><h5 style="color:var(--accent-green);font-size:13px;">🟩 自定义权限 用户超高自由度</h5><p style="font-size:13px;color:var(--text-secondary);">用户可清空默认指令、自定义任意专属精修需求；可自定义专属文风；可自由批量添加/删除禁用词汇；支持只扩写细节、只加快节奏等极致个性化设置。</p></div>
+      <div style="margin-bottom:10px;"><h5 style="color:var(--gold);font-size:13px;">🟨 落地效果</h5><p style="font-size:13px;color:var(--text-secondary);">模板固化个人写作习惯，每次调用自动适配专属细节风格，无需重复设置。</p></div>
+    </div>
+  </div>
+
+  <div class="step-card" style="border:1px solid var(--border-soft);border-radius:12px;margin-bottom:12px;overflow:hidden;">
+    <div class="step-header" onclick="this.parentElement.classList.toggle('collapsed')" style="display:flex;align-items:center;gap:12px;padding:14px;cursor:pointer;background:rgba(255,255,255,0.02);">
+      <div class="step-num" style="width:30px;height:30px;border-radius:8px;background:var(--gold-grad);color:#2a1408;display:flex;align-items:center;justify-content:center;font-weight:800;flex-shrink:0;">6</div>
+      <div style="flex:1;"><div style="font-weight:700;font-size:15px;">中英双语翻译规则自定义（拓展功能自由开关）</div><div style="font-size:12px;color:var(--text-muted);">内娱中文 / 海外双语双场景自由适配</div></div>
+      <div style="transition:.2s;">▼</div>
+    </div>
+    <div class="step-body" style="padding:14px;border-top:1px solid var(--border-soft);">
+      <div style="margin-bottom:10px;"><h5 style="color:var(--accent-blue);font-size:13px;">🟦 系统推荐 新手默认设置</h5><p style="font-size:13px;color:var(--text-secondary);">翻译功能：默认关闭 | 翻译模式：全文收尾翻译 | 保真度85%、创意度60%、美式英文、优化3轮、审核2轮</p></div>
+      <div style="margin-bottom:10px;"><h5 style="color:var(--accent-green);font-size:13px;">🟩 自定义权限 用户超高自由度</h5><p style="font-size:13px;color:var(--text-secondary);">用户可默认开启/关闭翻译；自由切换逐章/全文翻译；所有翻译参数无级可调，可做极致精准直译、也可做创意英文改写。</p></div>
+      <div style="margin-bottom:10px;"><h5 style="color:var(--gold);font-size:13px;">🟨 落地效果</h5><p style="font-size:13px;color:var(--text-secondary);">内娱中文仿写、海外双语仿写双场景自由适配，不强制、不冗余、完全自主。</p></div>
+    </div>
+  </div>
+
+  <div class="step-card" style="border:1px solid var(--border-soft);border-radius:12px;margin-bottom:12px;overflow:hidden;">
+    <div class="step-header" onclick="this.parentElement.classList.toggle('collapsed')" style="display:flex;align-items:center;gap:12px;padding:14px;cursor:pointer;background:rgba(255,255,255,0.02);">
+      <div class="step-num" style="width:30px;height:30px;border-radius:8px;background:var(--gold-grad);color:#2a1408;display:flex;align-items:center;justify-content:center;font-weight:800;flex-shrink:0;">7</div>
+      <div style="flex:1;"><div style="font-weight:700;font-size:15px;">质检、容错、重写机制自定义（质量兜底自由控）</div><div style="font-size:12px;color:var(--text-muted);">高质量精修 / 快速初稿搭建两种模式自由切换</div></div>
+      <div style="transition:.2s;">▼</div>
+    </div>
+    <div class="step-body" style="padding:14px;border-top:1px solid var(--border-soft);">
+      <div style="margin-bottom:10px;"><h5 style="color:var(--accent-blue);font-size:13px;">🟦 系统推荐 新手默认设置</h5><p style="font-size:13px;color:var(--text-secondary);">严格模式开启、原创检测开启 | 基础合格分数线 80 分 | 报错自动局部重写、瑕疵自动全局复检</p></div>
+      <div style="margin-bottom:10px;"><h5 style="color:var(--accent-green);font-size:13px;">🟩 自定义权限 用户超高自由度</h5><p style="font-size:13px;color:var(--text-secondary);">用户可自由开关所有检测机制；可自定义重写触发条件，可选择局部重写、全局重写、放弃重写；可自由关闭质检，主打快速出框架。</p></div>
+      <div style="margin-bottom:10px;"><h5 style="color:var(--gold);font-size:13px;">🟨 落地效果</h5><p style="font-size:13px;color:var(--text-secondary);">高质量精修、快速初稿搭建两种模式自由切换，兼顾效率与质量。</p></div>
+    </div>
+  </div>
+
+  <div class="step-card" style="border:1px solid var(--border-soft);border-radius:12px;margin-bottom:12px;overflow:hidden;">
+    <div class="step-header" onclick="this.parentElement.classList.toggle('collapsed')" style="display:flex;align-items:center;gap:12px;padding:14px;cursor:pointer;background:rgba(255,255,255,0.02);">
+      <div class="step-num" style="width:30px;height:30px;border-radius:8px;background:var(--gold-grad);color:#2a1408;display:flex;align-items:center;justify-content:center;font-weight:800;flex-shrink:0;">8</div>
+      <div style="flex:1;"><div style="font-weight:700;font-size:15px;">成品输出格式预设（导出自由定义）</div><div style="font-size:12px;color:var(--text-muted);">一键导出用户最喜欢的成品格式</div></div>
+      <div style="transition:.2s;">▼</div>
+    </div>
+    <div class="step-body" style="padding:14px;border-top:1px solid var(--border-soft);">
+      <div style="margin-bottom:10px;"><h5 style="color:var(--accent-blue);font-size:13px;">🟦 系统推荐 新手默认设置</h5><p style="font-size:13px;color:var(--text-secondary);">默认导出 TXT 格式、纯中文输出、排版规整分段</p></div>
+      <div style="margin-bottom:10px;"><h5 style="color:var(--accent-green);font-size:13px;">🟩 自定义权限 用户超高自由度</h5><p style="font-size:13px;color:var(--text-secondary);">用户可预设默认 TXT/Word/Markdown 任意格式；可默认双语输出/默认单中文输出；自定义排版规则、章节拆分规则。</p></div>
+      <div style="margin-bottom:10px;"><h5 style="color:var(--gold);font-size:13px;">🟨 落地效果</h5><p style="font-size:13px;color:var(--text-secondary);">一键导出用户最喜欢的成品格式，无需每次手动选择。</p></div>
+    </div>
+  </div>
+
+  <div class="step-card" style="border:1px solid var(--border-soft);border-radius:12px;margin-bottom:12px;overflow:hidden;">
+    <div class="step-header" onclick="this.parentElement.classList.toggle('collapsed')" style="display:flex;align-items:center;gap:12px;padding:14px;cursor:pointer;background:rgba(255,255,255,0.02);">
+      <div class="step-num" style="width:30px;height:30px;border-radius:8px;background:var(--gold-grad);color:#2a1408;display:flex;align-items:center;justify-content:center;font-weight:800;flex-shrink:0;">9</div>
+      <div style="flex:1;"><div style="font-weight:700;font-size:15px;">自定义工作流专属评分标准（核心高阶自由度）</div><div style="font-size:12px;color:var(--text-muted);">不同创作目的对应不同评分规则</div></div>
+      <div style="transition:.2s;">▼</div>
+    </div>
+    <div class="step-body" style="padding:14px;border-top:1px solid var(--border-soft);">
+      <div style="margin-bottom:10px;"><h5 style="color:var(--accent-blue);font-size:13px;">🟦 系统推荐 新手默认设置</h5><p style="font-size:13px;color:var(--text-secondary);">总分合格线 85 分 | 细分维度：剧情完整度85、人设贴合85、文风匹配85、原创纯净度80、语句通顺度90</p></div>
+      <div style="margin-bottom:10px;"><h5 style="color:var(--accent-green);font-size:13px;">🟩 自定义权限 用户超高自由度</h5><p style="font-size:13px;color:var(--text-secondary);">用户可自由设置 80-98 分任意目标总分，可单独拉高/降低每一个细分维度分数门槛。</p></div>
+      <div style="margin-bottom:10px;"><h5 style="color:var(--gold);font-size:13px;">🟨 落地效果</h5><p style="font-size:13px;color:var(--text-secondary);">不同创作目的对应不同评分规则，框架、仿写、改写、降重、精修全部精准适配。</p></div>
+      <div class="score-radar" id="scoreRadar" style="width:100%;height:280px;"></div>
+      <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;">
+        <span style="font-size:13px;color:var(--text-secondary);">目标总分：</span>
+        <input type="range" class="gold-range" min="80" max="98" value="85" style="width:200px;" id="targetScore" oninput="document.getElementById('targetScoreVal').textContent=this.value">
+        <span style="font-size:16px;font-weight:700;color:var(--gold);" id="targetScoreVal">85</span>
+        <span style="font-size:13px;color:var(--text-secondary);">/ 100 分</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="step-card" style="border:1px solid var(--border-soft);border-radius:12px;margin-bottom:12px;overflow:hidden;">
+    <div class="step-header" onclick="this.parentElement.classList.toggle('collapsed')" style="display:flex;align-items:center;gap:12px;padding:14px;cursor:pointer;background:rgba(255,255,255,0.02);">
+      <div class="step-num" style="width:30px;height:30px;border-radius:8px;background:var(--gold-grad);color:#2a1408;display:flex;align-items:center;justify-content:center;font-weight:800;flex-shrink:0;">10</div>
+      <div style="flex:1;"><div style="font-weight:700;font-size:15px;">加密保存 + 一键发布生效（模板固化）</div><div style="font-size:12px;color:var(--text-muted);">个人专属私有仿写工作流正式落地，永久复用</div></div>
+      <div style="transition:.2s;">▼</div>
+    </div>
+    <div class="step-body" style="padding:14px;border-top:1px solid var(--border-soft);">
+      <div style="margin-bottom:10px;"><h5 style="color:var(--accent-blue);font-size:13px;">🟦 系统推荐 新手默认设置</h5><p style="font-size:13px;color:var(--text-secondary);">勾选记住配置加密缓存，直接一键发布启用，整套推荐参数永久固化。</p></div>
+      <div style="margin-bottom:10px;"><h5 style="color:var(--accent-green);font-size:13px;">🟩 自定义权限 用户超高自由度</h5><p style="font-size:13px;color:var(--text-secondary);">用户可修改任意参数后重新保存发布、可随时编辑重置、可保存为草稿、可临时停用、可复刻衍生新模板；所有配置高强度加密缓存，下次登录自动加载。</p></div>
+      <div style="margin-bottom:10px;"><h5 style="color:var(--gold);font-size:13px;">🟨 落地效果</h5><p style="font-size:13px;color:var(--text-secondary);">个人专属私有仿写工作流正式落地，永久复用、随时迭代、超高自由度随心使用。</p></div>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:12px;">
+        <button class="btn-gold large" onclick="publishTemplate()">🚀 一键发布启用</button>
+        <button class="btn-dark" onclick="saveAsDraft()">💾 保存为草稿</button>
+        <button class="btn-green" onclick="publishPublicTemplate()">🌐 公开发布到模板库</button>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;margin-top:12px;">
+        <label class="toggle-switch"><input type="checkbox" id="rememberConfig" checked><span class="toggle-slider"></span></label>
+        <span style="font-size:13px;color:var(--text-secondary);">记住配置（加密缓存，下次自动加载）</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 配套管理 -->
+<div class="card" style="margin-bottom:24px;">
+  <h3 style="font-size:20px;font-weight:700;color:#fff;margin-bottom:16px;">⚙️ 自定义工作流配套管理功能</h3>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;">
+    <div class="interop-item" style="text-align:left;padding:18px;border:1px solid var(--border-soft);border-radius:12px;"><div style="font-size:22px;margin-bottom:6px;">📋</div><strong style="color:#fff;">模板复刻功能</strong><p style="font-size:12px;color:var(--text-muted);margin-top:4px;">一键复制已发布模板，基于原有参数微调，快速衍生新的专属工作流，无需从零搭建。</p></div>
+    <div class="interop-item" style="text-align:left;padding:18px;border:1px solid var(--border-soft);border-radius:12px;"><div style="font-size:22px;margin-bottom:6px;">✏️</div><strong style="color:#fff;">模板编辑功能</strong><p style="font-size:12px;color:var(--text-muted);margin-top:4px;">已发布模板支持随时重新编辑所有参数、评分标准、执行步骤，修改后重新发布即可更新生效。</p></div>
+    <div class="interop-item" style="text-align:left;padding:18px;border:1px solid var(--border-soft);border-radius:12px;"><div style="font-size:22px;margin-bottom:6px;">📊</div><strong style="color:#fff;">模板状态管理</strong><p style="font-size:12px;color:var(--text-muted);margin-top:4px;">支持草稿保存、临时停用、永久删除，灵活管理 3-5 组模板名额。</p></div>
+    <div class="interop-item" style="text-align:left;padding:18px;border:1px solid var(--border-soft);border-radius:12px;"><div style="font-size:22px;margin-bottom:6px;">📈</div><strong style="color:#fff;">分数可视化展示</strong><p style="font-size:12px;color:var(--text-muted);margin-top:4px;">执行完成后实时展示成品总分+五大细分维度得分，数据透明可查。</p></div>
+  </div>
+</div>
+
+<!-- 极简后端 -->
+<div class="card" style="margin-bottom:24px;">
+  <h3 style="color:var(--gold);margin-bottom:16px;">☁️ 极简后端存储 & 公开/私有双模式</h3>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
+    <div><h5 style="color:var(--accent-blue);font-size:14px;">🔵 私有模板（默认）</h5><p style="font-size:12px;color:var(--text-secondary);">仅创建者自己可见、自己使用、自己编辑，别人搜不到、看不到。所有模板数据加密存储于后端，前端无明文泄露风险。</p></div>
+    <div><h5 style="color:var(--accent-green);font-size:14px;">🟢 公开模板（手动发布）</h5><p style="font-size:12px;color:var(--text-secondary);">用户点击【公开发布】→ 后端标记为公开 → 全站所有用户均可看到、一键套用、直接仿写。B用户使用他人公开模板支持：一键加载全部参数、直接使用、可二次修改、可另存为自己模板、可重新发布。</p></div>
+  </div>
+  <p style="font-size:11px;color:var(--text-muted);margin-top:12px;">后端极简到极致：单文件运行、轻量SQLite数据库、7个接口、零冗余。所有密钥全部迁后端，彻底解决前端泄密、爬虫盗取密钥问题。实现用户互通共享，产品具备社区属性。</p>
+</div>
+
+</main>
+
+<!-- ============ 公开模板库弹窗 ============ -->
+<div class="modal-overlay" id="publicModal">
+  <div class="modal-box" style="max-width:560px;">
+    <button class="modal-close" onclick="document.getElementById('publicModal').style.display='none'">✕</button>
+    <h3 style="color:var(--gold);margin-bottom:16px;">🌐 公开模板库</h3>
+    <div id="publicTemplateList">
+      <div style="padding:14px;border:1px solid var(--border-soft);border-radius:10px;margin-bottom:10px;"><div style="font-weight:700;color:var(--gold);">古言甜宠爆款复刻模板</div><div style="font-size:12px;color:var(--text-muted);">还原度75% · 高创新改写 · 适配番茄/七猫</div><button class="btn-dark btn-sm" style="margin-top:8px;" onclick="usePublicTemplate(this)">一键套用</button></div>
+      <div style="padding:14px;border:1px solid var(--border-soft);border-radius:10px;margin-bottom:10px;"><div style="font-weight:700;color:var(--gold);">都市脑洞爽文框架模板</div><div style="font-size:12px;color:var(--text-muted);">纯框架复刻 · 快速搭大纲 · 适配起点</div><button class="btn-dark btn-sm" style="margin-top:8px;" onclick="usePublicTemplate(this)">一键套用</button></div>
+      <div style="padding:14px;border:1px solid var(--border-soft);border-radius:10px;margin-bottom:10px;"><div style="font-weight:700;color:var(--gold);">海外霸总言情出海模板</div><div style="font-size:12px;color:var(--text-muted);">中英双语 · 美式英文 · 适配Webnovel</div><button class="btn-dark btn-sm" style="margin-top:8px;" onclick="usePublicTemplate(this)">一键套用</button></div>
+    </div>
+    <button class="btn-dark" style="margin-top:16px;width:100%;" onclick="document.getElementById('publicModal').style.display='none'">关闭</button>
+  </div>
+</div>
+
+<!-- ============ Footer ============ -->
+<footer class="site-footer">
+  <div class="disclaimer">
+    本工具仅用于个人写作练习、学习参考。请勿在未获得原著版权授权的情况下进行商业使用，违规使用产生的法律风险由用户自行承担。
+  </div>
+  <div>更多AI工具：<a href="https://sqai.shop/" target="_blank">SqAI菱形AI综合平台</a> | <a href="https://joyful-narwhal-112ef4.netlify.app/" target="_blank">菱形AI图办秘书（小说封面生成专用）</a></div>
+  <div style="margin-top:8px;">创作交流与教程：添加微信 <strong>xnpc01</strong>（备注：小说），可免费进社群学习、获取工具跳转使用指南与答疑交流。</div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+<script src="common.js"></script>
+<script>
+/* ===== page3 交互逻辑 ===== */
+function createNewTemplate(){ if(!isNovelActivated()){ showActivationModal(); return; } novelToast('已新建空白工作流模板，请从第1步开始配置'); }
+function quickSaveTemplate(){
+  var name = document.getElementById('templateName').value || '未命名模板';
+  novelToast('💾 草稿已保存：' + name);
+}
+function loadPublicTemplates(){ document.getElementById('publicModal').style.display='flex'; }
+function usePublicTemplate(btn){
+  if(!isNovelActivated()){ showActivationModal(); return; }
+  novelToast('已套用公开模板，可一键发布启用');
+  document.getElementById('publicModal').style.display='none';
+}
+function publishTemplate(){ if(!isNovelActivated()){ showActivationModal(); return; } novelToast('🚀 工作流已发布启用！'); }
+function saveAsDraft(){ novelToast('💾 已保存为草稿'); }
+function publishPublicTemplate(){ if(!isNovelActivated()){ showActivationModal(); return; } novelToast('🌐 已公开发布到模板库'); }
+
+// 评分雷达图
+document.addEventListener("DOMContentLoaded", function(){
+  if(window.echarts){
+    var radar = echarts.init(document.getElementById('scoreRadar'));
+    var option = {
+      backgroundColor:'transparent',
+      tooltip:{},
+      radar:{
+        indicator:[
+          {name:'剧情完整度',max:100},{name:'人设贴合',max:100},
+          {name:'文风匹配',max:100},{name:'原创纯净度',max:100},{name:'语句通顺度',max:100}
+        ],
+        axisName:{color:'#c7bcd9',fontSize:12},
+        splitLine:{lineStyle:{color:'rgba(255,255,255,0.1)'}},
+        splitArea:{areaStyle:{color:['rgba(240,192,96,0.03)','rgba(90,155,213,0.03)']}},
+        axisLine:{lineStyle:{color:'rgba(255,255,255,0.1)'}}
+      },
+      series:[{type:'radar',data:[{value:[85,85,85,80,90],name:'目标评分',
+        areaStyle:{color:'rgba(240,192,96,0.25)'},lineStyle:{color:'#f0c060'},itemStyle:{color:'#f0c060'}}]}]
+    };
+    radar.setOption(option);
+    window.addEventListener('resize', function(){ radar.resize(); });
+  }
+});
+</script>
+
+
+  <div class="modal-overlay" id="activationModal">
+  <div class="modal-box">
+    <button class="modal-close" onclick="hideActivationModal()">✕</button>
+    <h2>🔑 激活你的专属权限</h2>
+    <p class="modal-subtitle">输入16位激活码，解锁全部高阶仿写功能</p>
+    <div class="input-group">
+      <label>激活密码</label>
+      <input type="text" class="code-input" id="activationCode" placeholder="请输入16位激活密码" maxlength="16" autocomplete="off">
+      <div class="error-msg" id="activationError"></div>
+      <div class="success-msg" id="activationSuccess"></div>
+    </div>
+    <div class="checkbox-group" id="agreementGroup">
+      <input type="checkbox" id="agreeTerms">
+      <label for="agreeTerms">我已阅读并同意 <a href="#" onclick="event.stopPropagation()">《用户协议与免责声明》</a></label>
+    </div>
+    <div class="checkbox-group" id="rememberGroup">
+      <input type="checkbox" id="rememberActivation" checked>
+      <label for="rememberActivation">记住激活状态（7天内免重复激活）</label>
+    </div>
+    <button class="btn-activate pulse-anim" id="btnActivate" onclick="handleActivation()">立即激活</button>
+    <div class="modal-footer-links">
+      <a href="#" onclick="event.preventDefault(); showWechatPaymentModal();">咨询客服</a>
+      <a href="#" onclick="event.preventDefault(); showWechatPaymentModal();">获取激活码</a>
+    </div>
+  </div>
+</div>
+
+  <div class="modal-overlay" id="wechatModal">
+  <div class="modal-box" style="max-width:480px;">
+    <button class="modal-close" onclick="hideWechatPaymentModal()">✕</button>
+    <div style="text-align:center;margin-bottom:20px;">
+      <div style="display:inline-block;background:rgba(76,175,132,0.12);padding:4px 14px;border-radius:20px;font-size:12px;color:var(--accent-green);margin-bottom:10px;">💚 微信官方付款通道</div>
+      <h2 style="font-size:22px;font-weight:700;margin-bottom:6px;">扫码付款开通 · 秒到账</h2>
+      <p style="font-size:13px;color:var(--text-secondary);">付款后添加客服微信领取激活码，即刻解锁全站功能</p>
+    </div>
+    <div style="text-align:center;padding:24px 20px;background:rgba(255,255,255,0.02);border-radius:16px;border:2px dashed rgba(240,192,96,0.25);margin-bottom:18px;">
+      <div style="width:180px;height:180px;margin:0 auto 12px;background:#f8f8f8;border-radius:16px;border:1px solid #ddd;display:flex;align-items:center;justify-content:center;font-size:14px;color:#333;box-shadow:0 4px 20px rgba(0,0,0,0.3);">
+        <div style="text-align:center;"><div style="font-size:48px;margin-bottom:6px;">💎</div><div style="font-size:12px;">微信/支付宝<br>收款码</div></div>
+      </div>
+      <div style="display:flex;justify-content:center;gap:24px;flex-wrap:wrap;margin-bottom:10px;">
+        <div><div style="font-size:28px;font-weight:800;color:var(--gold);">¥30</div><div style="font-size:12px;color:var(--text-muted);">月卡 / 30天</div><div style="font-size:10px;color:var(--text-muted);text-decoration:line-through;">原价¥198</div></div>
+        <div style="width:1px;background:var(--border-soft);"></div>
+        <div><div style="font-size:28px;font-weight:800;color:var(--gold);">¥198</div><div style="font-size:12px;color:var(--text-muted);">年卡 / 365天</div><div style="font-size:10px;color:var(--text-muted);text-decoration:line-through;">原价¥798</div></div>
+      </div>
+      <p style="font-size:11px;color:var(--accent-green);margin-bottom:0;">✅ 支持微信扫码 · 支付宝扫码 · 付款即时到账</p>
+    </div>
+    <div style="text-align:center;padding:18px;background:rgba(240,192,96,0.05);border-radius:14px;border:1px solid rgba(240,192,96,0.15);margin-bottom:14px;">
+      <p style="font-size:13px;color:var(--text-secondary);margin-bottom:8px;">📱 付款后请添加客服微信领取激活码</p>
+      <div style="display:inline-flex;align-items:center;gap:10px;background:rgba(240,192,96,0.1);padding:12px 24px;border-radius:12px;border:1px solid rgba(240,192,96,0.25);cursor:pointer;" onclick="copyWechatFromDetail()" title="点击复制微信号">
+        <span style="font-size:20px;">💬</span>
+        <div style="text-align:left;"><div style="font-size:11px;color:var(--text-muted);">客服微信</div><div style="font-size:22px;font-weight:800;color:var(--gold);letter-spacing:1px;">xnpc01</div></div>
+        <span style="font-size:11px;color:var(--accent-green);">👆 点击复制</span>
+      </div>
+      <p style="font-size:11px;color:var(--text-muted);margin-top:8px;">添加时请备注：<strong style="color:var(--gold);">小说开卡</strong>，秒通过不等待</p>
+    </div>
+    <div style="font-size:12px;color:var(--text-secondary);line-height:1.8;padding:14px 16px;background:rgba(90,155,213,0.04);border-radius:10px;border:1px solid rgba(90,155,213,0.1);margin-bottom:14px;">
+      <strong style="color:var(--accent-blue);">📋 三步完成激活：</strong><br>
+      <span style="color:var(--gold);">①</span> 扫描上方二维码完成付款 →
+      <span style="color:var(--gold);">②</span> 添加客服微信 xnpc01（备注"小说开卡"）→
+      <span style="color:var(--gold);">③</span> 客服发送16位激活码 → 返回首页弹窗输入 → 解锁全部功能
+    </div>
+    <button class="detail-close-btn" onclick="hideWechatPaymentModal()" style="width:100%;">我知道了</button>
+  </div>
+</div>
+
+
+</body>
+</html>

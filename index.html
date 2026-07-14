@@ -130,20 +130,23 @@
   </div>
 </section>
 
-<!-- ============ 扫码付款开通 ============ -->
+<!-- ============ 添加客服微信开通 ============ -->
 <section class="section">
   <div class="container">
     <div class="card" style="background:linear-gradient(135deg,rgba(157,107,214,0.15),rgba(90,155,213,0.1));border:1px solid var(--border-color);max-width:600px;margin:0 auto;text-align:center;padding:30px;">
-      <h3 style="font-size:22px;color:var(--gold);margin-bottom:8px;">扫码付款开通 · 秒到账</h3>
-      <p style="font-size:13px;color:var(--text-secondary);margin-bottom:20px;">付款后添加客服微信领取激活码，即刻解锁全站功能</p>
-      
-      <div style="background:#fff;border-radius:16px;padding:20px;margin:0 auto 20px;max-width:280px;">
-        <div class="qr-container" style="width:200px;height:200px;margin:0 auto;background:#f5f5f5;border-radius:12px;overflow:hidden;display:flex;align-items:center;justify-content:center;">
-          <img src="wechat-qr.png" alt="微信二维码" style="width:100%;height:100%;object-fit:cover;" onerror="this.style.display='none';this.parentElement.innerHTML='<span style=\\'color:#999;font-size:13px;\\'>请上传二维码</span>';">
+      <h3 style="font-size:22px;color:var(--gold);margin-bottom:8px;">添加客服微信 · 开通会员</h3>
+      <p style="font-size:13px;color:var(--text-secondary);margin-bottom:20px;">微信沟通付款方式，付款后客服立即发送激活码</p>
+
+      <!-- 文字卡片：加微信 -->
+      <div style="background:linear-gradient(135deg,rgba(240,192,96,0.18),rgba(157,107,214,0.12));border:2px solid var(--gold);border-radius:18px;padding:30px 20px;margin:0 auto 20px;max-width:340px;box-shadow:0 4px 24px rgba(240,192,96,0.18);">
+        <div style="font-size:46px;margin-bottom:10px;">💬</div>
+        <p style="font-size:13px;color:var(--text-secondary);margin-bottom:8px;">加微信：</p>
+        <div class="wechat-id" id="wechatId" onclick="copyWechat()" title="点击复制微信号" style="font-size:32px;color:var(--gold);cursor:pointer;background:rgba(0,0,0,0.25);padding:14px 24px;border-radius:12px;display:inline-block;border:1px solid rgba(240,192,96,0.4);font-weight:800;letter-spacing:2px;margin-bottom:12px;">
+          xnpc01
         </div>
-        <p style="font-size:12px;color:#666;margin-top:12px;">微信/支付宝 收款码</p>
+        <p style="font-size:11px;color:var(--accent-green);">👆 点击复制微信号</p>
       </div>
-      
+
       <div style="display:flex;gap:24px;justify-content:center;margin-bottom:16px;">
         <div style="text-align:center;">
           <div style="font-size:32px;font-weight:800;color:var(--gold);">¥60</div>
@@ -157,22 +160,14 @@
           <div style="font-size:11px;color:var(--text-muted);text-decoration:line-through;">原价¥798</div>
         </div>
       </div>
-      
-      <p style="font-size:12px;color:var(--accent-green);margin-bottom:16px;">✅ 支持微信扫码 · 支付宝扫码 · 付款即时到账</p>
-      
-      <div style="background:rgba(0,0,0,0.2);border-radius:12px;padding:16px;margin-bottom:16px;">
-        <p style="font-size:13px;color:var(--gold);margin-bottom:10px;">📱 付款后请添加客服微信领取激活码</p>
-        <div class="wechat-id" id="wechatId" onclick="copyWechat()" title="点击复制微信号" style="font-size:18px;color:#fff;cursor:pointer;background:rgba(240,192,96,0.15);padding:10px 20px;border-radius:10px;display:inline-block;border:1px solid var(--border-color);font-weight:600;">
-          💬 xnpc01 <span style="font-size:11px;color:var(--accent-green);margin-left:8px;">👆点击复制</span>
-        </div>
-        <p style="font-size:11px;color:var(--text-muted);margin-top:10px;">添加时请备注：<strong style="color:var(--gold);">小说开卡</strong>，秒通过不等待</p>
-      </div>
-      
-      <div style="text-align:left;background:rgba(0,0,0,0.15);border-radius:10px;padding:14px 18px;">
+
+      <p style="font-size:12px;color:var(--accent-green);margin-bottom:16px;">✅ 支持微信付款 · 支付宝付款 · 付款即时到账</p>
+
+      <div style="background:rgba(0,0,0,0.15);border-radius:10px;padding:14px 18px;text-align:left;">
         <p style="font-size:12px;color:var(--text-secondary);margin-bottom:8px;">📋 三步完成激活：</p>
         <p style="font-size:12px;color:var(--text-muted);line-height:1.8;">
-          ① 扫描上方二维码完成付款 → <br>
-          ② 添加客服微信 xnpc01（备注"小说开卡"）→ <br>
+          ① 添加客服微信 xnpc01（备注"小说开卡"）→ <br>
+          ② 与客服沟通付款方式（微信/支付宝）完成付款 → <br>
           ③ 客服发送16位激活码 → 返回首页弹窗输入 → 解锁全部功能
         </p>
       </div>
@@ -343,16 +338,20 @@
       <h2 style="font-size:22px;font-weight:700;margin-bottom:6px;">扫码付款开通 · 秒到账</h2>
       <p style="font-size:13px;color:var(--text-secondary);">付款后添加客服微信领取激活码，即刻解锁全站功能</p>
     </div>
-    <div style="text-align:center;padding:24px 20px;background:rgba(255,255,255,0.02);border-radius:16px;border:2px dashed rgba(240,192,96,0.25);margin-bottom:18px;">
-      <div style="width:180px;height:180px;margin:0 auto 12px;background:#f8f8f8;border-radius:16px;border:1px solid #ddd;display:flex;align-items:center;justify-content:center;font-size:14px;color:#333;box-shadow:0 4px 20px rgba(0,0,0,0.3);">
-        <div style="text-align:center;"><div style="font-size:48px;margin-bottom:6px;">💎</div><div style="font-size:12px;">微信/支付宝<br>收款码</div></div>
+    <div style="text-align:center;padding:28px 20px;background:linear-gradient(135deg,rgba(240,192,96,0.12),rgba(157,107,214,0.08));border-radius:16px;border:2px solid rgba(240,192,96,0.4);margin-bottom:18px;">
+      <div style="font-size:50px;margin-bottom:8px;">💬</div>
+      <p style="font-size:13px;color:var(--text-secondary);margin-bottom:6px;">加微信 · 沟通付款方式</p>
+      <div style="display:inline-block;background:rgba(0,0,0,0.3);padding:12px 28px;border-radius:12px;border:1px solid rgba(240,192,96,0.5);margin-bottom:6px;cursor:pointer;" onclick="copyWechatFromDetail()" title="点击复制微信号">
+        <div style="font-size:11px;color:var(--text-muted);">客服微信</div>
+        <div style="font-size:26px;font-weight:800;color:var(--gold);letter-spacing:2px;">xnpc01</div>
       </div>
-      <div style="display:flex;justify-content:center;gap:24px;flex-wrap:wrap;margin-bottom:10px;">
-        <div><div style="font-size:28px;font-weight:800;color:var(--gold);">¥60</div><div style="font-size:12px;color:var(--text-muted);">月卡 / 30天</div><div style="font-size:10px;color:var(--text-muted);text-decoration:line-through;">原价¥198</div></div>
+      <p style="font-size:11px;color:var(--accent-green);margin:6px 0 14px;">👆 点击复制微信号</p>
+      <div style="display:flex;justify-content:center;gap:24px;flex-wrap:wrap;margin-bottom:6px;">
+        <div><div style="font-size:24px;font-weight:800;color:var(--gold);">¥60</div><div style="font-size:11px;color:var(--text-muted);">月卡 / 30天</div><div style="font-size:10px;color:var(--text-muted);text-decoration:line-through;">原价¥198</div></div>
         <div style="width:1px;background:var(--border-soft);"></div>
-        <div><div style="font-size:28px;font-weight:800;color:var(--gold);">¥398</div><div style="font-size:12px;color:var(--text-muted);">年卡 / 365天</div><div style="font-size:10px;color:var(--text-muted);text-decoration:line-through;">原价¥798</div></div>
+        <div><div style="font-size:24px;font-weight:800;color:var(--gold);">¥398</div><div style="font-size:11px;color:var(--text-muted);">年卡 / 365天</div><div style="font-size:10px;color:var(--text-muted);text-decoration:line-through;">原价¥798</div></div>
       </div>
-      <p style="font-size:11px;color:var(--accent-green);margin-bottom:0;">✅ 支持微信扫码 · 支付宝扫码 · 付款即时到账</p>
+      <p style="font-size:11px;color:var(--accent-green);margin-bottom:0;">✅ 支持微信付款 · 支付宝付款 · 付款即时到账</p>
     </div>
     <div style="text-align:center;padding:18px;background:rgba(240,192,96,0.05);border-radius:14px;border:1px solid rgba(240,192,96,0.15);margin-bottom:14px;">
       <p style="font-size:13px;color:var(--text-secondary);margin-bottom:8px;">📱 付款后请添加客服微信领取激活码</p>
@@ -365,8 +364,8 @@
     </div>
     <div style="font-size:12px;color:var(--text-secondary);line-height:1.8;padding:14px 16px;background:rgba(90,155,213,0.04);border-radius:10px;border:1px solid rgba(90,155,213,0.1);margin-bottom:14px;">
       <strong style="color:var(--accent-blue);">📋 三步完成激活：</strong><br>
-      <span style="color:var(--gold);">①</span> 扫描上方二维码完成付款 →
-      <span style="color:var(--gold);">②</span> 添加客服微信 xnpc01（备注"小说开卡"）→
+      <span style="color:var(--gold);">①</span> 添加客服微信 xnpc01（备注"小说开卡"）→
+      <span style="color:var(--gold);">②</span> 与客服沟通付款方式（微信/支付宝）完成付款 →
       <span style="color:var(--gold);">③</span> 客服发送16位激活码 → 返回首页弹窗输入 → 解锁全部功能
     </div>
     <button class="detail-close-btn" onclick="hideWechatPaymentModal()" style="width:100%;">我知道了</button>
